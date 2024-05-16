@@ -1,8 +1,8 @@
 package fm.app.api;
 
 import java.util.List;
-import fm.app.Entity.InventoryItems;
-import fm.app.Entity.GenericResponse;
+import fm.app.entity.service.InventoryItems;
+import fm.app.entity.GenericResponse;
 import retrofit2.Call;
 import retrofit2.http.*;
 

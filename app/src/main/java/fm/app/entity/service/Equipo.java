@@ -1,8 +1,8 @@
-package fm.app.Entity;
+package fm.app.entity.service;
 
 import java.time.LocalDate;
 
-public class InventoryItems {
+public class Equipo {
 
     private int id;
     private String tipoEquipo;
@@ -20,14 +20,14 @@ public class InventoryItems {
     private Ubicacion ubicacion;
     private Foto foto;
 
-    public InventoryItems() {
+    public Equipo() {
     }
 
-    public InventoryItems(int id) {
+    public Equipo(int id) {
         this.id = id;
     }
 
-    public InventoryItems(int id, String tipoEquipo, String codigoBarra, String codigoPatrimonial, String descripcion, String estado, LocalDate fechaCompra, String marca, String modelo, String nombreEquipo, String numeroOrden, String serie, Empleado responsable, Ubicacion ubicacion, Foto foto) {
+    public Equipo(int id, String tipoEquipo, String codigoBarra, String codigoPatrimonial, String descripcion, String estado, LocalDate fechaCompra, String marca, String modelo, String nombreEquipo, String numeroOrden, String serie, Empleado responsable, Ubicacion ubicacion, Foto foto) {
         this.id = id;
         this.tipoEquipo = tipoEquipo;
         this.codigoBarra = codigoBarra;
@@ -43,6 +43,23 @@ public class InventoryItems {
         this.responsable = responsable;
         this.ubicacion = ubicacion;
         this.foto = foto;
+    }
+
+    public Equipo(InventoryItems inventoryItems) {
+        this.id = id;
+        this.tipoEquipo = inventoryItems.getTipoEquipo();
+        this.codigoBarra = inventoryItems.getCodigoBarra();
+        this.codigoPatrimonial = inventoryItems.getCodigoPatrimonial();
+        this.descripcion = inventoryItems.getDescripcion();
+        this.estado = inventoryItems.getEstado();
+        this.fechaCompra = inventoryItems.getFechaCompra();
+        this.marca = inventoryItems.getMarca();
+        this.modelo = inventoryItems.getModelo();
+        this.nombreEquipo = inventoryItems.getNombreEquipo();
+        this.numeroOrden = inventoryItems.getNumeroOrden();
+        this.serie = inventoryItems.getSerie();
+        this.responsable = inventoryItems.getResponsable();
+        this.ubicacion = inventoryItems.getUbicacion();
     }
 
     public int getId() {

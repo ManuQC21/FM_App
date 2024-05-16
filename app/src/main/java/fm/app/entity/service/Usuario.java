@@ -1,4 +1,4 @@
-package fm.app.Entity;
+package fm.app.entity.service;
 
 public class Usuario {
     private int id;

@@ -2,9 +2,8 @@ package fm.app.api;
 
 import java.util.List;
 
-import fm.app.Entity.Equipo;
-import fm.app.Entity.GenericResponse;
-import okhttp3.MultipartBody;
+import fm.app.entity.service.Equipo;
+import fm.app.entity.GenericResponse;
 import retrofit2.Call;
 import retrofit2.http.*;
 

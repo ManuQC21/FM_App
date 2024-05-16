@@ -1,7 +1,7 @@
 package fm.app.api;
 
-import fm.app.Entity.GenericResponse;
-import fm.app.Entity.Usuario;
+import fm.app.entity.GenericResponse;
+import fm.app.entity.service.Usuario;
 import retrofit2.Call;
 import retrofit2.http.*;
 
