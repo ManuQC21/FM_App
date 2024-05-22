@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.InicioActivity">
+
+    <!-- Título en la parte superior -->
+    <TextView
+        android:id="@+id/tituloPrincipal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestión de Inventario IESTPFM"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/azul_general"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:padding="10dp" />
+
+    <!-- Repetición de 9 rectángulos con íconos y texto -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tituloPrincipal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- Rectángulo 1: Agregar un equipo -->
+            <LinearLayout
+                android:id="@+id/rectangulo1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:padding="7dp"
+                android:background="@drawable/rectangle_background"
+                android:gravity="center_vertical">
+
+                <!-- Ícono a la izquierda -->
+                <ImageView
+                    android:id="@+id/iconAgregarEquipo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/consultar"
+                    android:contentDescription="@string/consultar_icon"
+                    android:layout_marginEnd="10dp" />
+
+                <!-- Textos a la derecha del ícono -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Título -->
+                    <TextView
+                        android:id="@+id/tituloAgregarEquipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Agregar un equipo"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Subtítulo -->
+                    <TextView
+                        android:id="@+id/subtituloAgregarEquipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Añadir nuevo equipo al inventario"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Rectángulo 2: Modificar un equipo -->
+            <LinearLayout
+                android:id="@+id/rectangulo2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:padding="7dp"
+                android:background="@drawable/rectangle_background"
+                android:gravity="center_vertical">
+
+                <!-- Ícono a la izquierda -->
+                <ImageView
+                    android:id="@+id/iconModificarEquipo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/consultar"
+                    android:contentDescription="@string/consultar_icon"
+                    android:layout_marginEnd="10dp" />
+
+                <!-- Textos a la derecha del ícono -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Título -->
+                    <TextView
+                        android:id="@+id/tituloModificarEquipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Modificar un equipo"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Subtítulo -->
+                    <TextView
+                        android:id="@+id/subtituloModificarEquipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Actualizar datos de un equipo existente"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Rectángulo 3: Eliminar un equipo -->
+            <LinearLayout
+                android:id="@+id/rectangulo3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:padding="7dp"
+                android:background="@drawable/rectangle_background"
+                android:gravity="center_vertical">
+
+                <!-- Ícono a la izquierda -->
+                <ImageView
+                    android:id="@+id/iconEliminarEquipo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/consultar"
+                    android:contentDescription="@string/consultar_icon"
+                    android:layout_marginEnd="10dp" />
+
+                <!-- Textos a la derecha del ícono -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Título -->
+                    <TextView
+                        android:id="@+id/tituloEliminarEquipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Eliminar un equipo"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Subtítulo -->
+                    <TextView
+                        android:id="@+id/subtituloEliminarEquipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Remover equipo del inventario"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Rectángulo 4: Listar todos los equipos -->
+            <LinearLayout
+                android:id="@+id/rectangulo4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:padding="7dp"
+                android:background="@drawable/rectangle_background"
+                android:gravity="center_vertical">
+
+                <!-- Ícono a la izquierda -->
+                <ImageView
+                    android:id="@+id/iconListarEquipos"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/consultar"
+                    android:contentDescription="@string/consultar_icon"
+                    android:layout_marginEnd="10dp" />
+
+                <!-- Textos a la derecha del ícono -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Título -->
+                    <TextView
+                        android:id="@+id/tituloListarEquipos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Listar todos los equipos"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Subtítulo -->
+                    <TextView
+                        android:id="@+id/subtituloListarEquipos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ver lista completa de equipos"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Rectángulo 5: Buscar un equipo por código patrimonial -->
+            <LinearLayout
+                android:id="@+id/rectangulo5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:padding="7dp"
+                android:background="@drawable/rectangle_background"
+                android:gravity="center_vertical">
+
+                <!-- Ícono a la izquierda -->
+                <ImageView
+                    android:id="@+id/iconBuscarEquipo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/consultar"
+                    android:contentDescription="@string/consultar_icon"
+                    android:layout_marginEnd="10dp" />
+
+                <!-- Textos a la derecha del ícono -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Título -->
+                    <TextView
+                        android:id="@+id/tituloBuscarEquipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Buscar un equipo"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Subtítulo -->
+                    <TextView
+                        android:id="@+id/subtituloBuscarEquipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Buscar equipo por código patrimonial"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Rectángulo 6: Agregar un artículo de inventario (Data) -->
+            <LinearLayout
+                android:id="@+id/rectangulo6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:padding="7dp"
+                android:background="@drawable/rectangle_background"
+                android:gravity="center_vertical">
+
+                <!-- Ícono a la izquierda -->
+                <ImageView
+                    android:id="@+id/iconAgregarArticulo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/consultar"
+                    android:contentDescription="@string/consultar_icon"
+                    android:layout_marginEnd="10dp" />
+
+                <!-- Textos a la derecha del ícono -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Título -->
+                    <TextView
+                        android:id="@+id/tituloAgregarArticulo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Agregar un artículo"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Subtítulo -->
+                    <TextView
+                        android:id="@+id/subtituloAgregarArticulo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Añadir nuevo artículo al inventario"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Rectángulo 7: Listar todos los artículos de inventario (Data) -->
+            <LinearLayout
+                android:id="@+id/rectangulo7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:padding="7dp"
+                android:background="@drawable/rectangle_background"
+                android:gravity="center_vertical">
+
+                <!-- Ícono a la izquierda -->
+                <ImageView
+                    android:id="@+id/iconListarArticulos"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/consultar"
+                    android:contentDescription="@string/consultar_icon"
+                    android:layout_marginEnd="10dp" />
+
+                <!-- Textos a la derecha del ícono -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Título -->
+                    <TextView
+                        android:id="@+id/tituloListarArticulos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Listar todos los artículos"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Subtítulo -->
+                    <TextView
+                        android:id="@+id/subtituloListarArticulos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ver lista completa de artículos de inventario"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Rectángulo 8: Generar código de barras basado en el código patrimonial (Data) -->
+            <LinearLayout
+                android:id="@+id/rectangulo8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:padding="7dp"
+                android:background="@drawable/rectangle_background"
+                android:gravity="center_vertical">
+
+                <!-- Ícono a la izquierda -->
+                <ImageView
+                    android:id="@+id/iconGenerarCodigoBarras"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/consultar"
+                    android:contentDescription="@string/consultar_icon"
+                    android:layout_marginEnd="10dp" />
+
+                <!-- Textos a la derecha del ícono -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Título -->
+                    <TextView
+                        android:id="@+id/tituloGenerarCodigoBarras"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Generar código de barras"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Subtítulo -->
+                    <TextView
+                        android:id="@+id/subtituloGenerarCodigoBarras"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Generar código basado en código patrimonial"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Botón de Logout en la parte inferior derecha -->
+    <ImageView
+        android:id="@+id/btnLogout"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/logout_icon"
+        android:contentDescription="@string/logout_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true" />
+
+</RelativeLayout>

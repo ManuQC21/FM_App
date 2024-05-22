@@ -10,6 +10,16 @@ public class Empleado {
     public Empleado() {
     }
 
+    public Empleado(int id) {
+        this.id = id;
+    }
+
+    public Empleado(int id, String nombre, String cargo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.cargo = cargo;
+    }
+
     // Getters y setters
     public Integer getId() {
         return id;

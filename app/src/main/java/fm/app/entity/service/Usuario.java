@@ -6,6 +6,22 @@ public class Usuario {
     private String clave;
     private boolean vigencia;
     private Empleado empleado;
+
+    public Usuario() {
+    }
+
+    public Usuario(int id) {
+        this.id = id;
+    }
+
+    public Usuario(int id, String correo, String clave, boolean vigencia, Empleado empleado) {
+        this.id = id;
+        this.correo = correo;
+        this.clave = clave;
+        this.vigencia = vigencia;
+        this.empleado = empleado;
+    }
+
     public int getId() {
         return id;
     }

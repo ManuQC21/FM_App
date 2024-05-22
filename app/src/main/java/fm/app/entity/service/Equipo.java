@@ -1,7 +1,6 @@
 package fm.app.entity.service;
 
 import java.time.LocalDate;
-
 public class Equipo {
 
     private int id;
