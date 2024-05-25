@@ -43,7 +43,7 @@ public class InicioActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        btnLogout = findViewById(R.id.btnLogout);
+        btnLogout = findViewById(R.id.btnCerrarSesion);
         btnLogout.setOnClickListener(view -> onBackPressed());
     }
 

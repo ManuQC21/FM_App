@@ -5,29 +5,37 @@
     <string name="label_start_session">Iniciar Sesión</string>
     <string name="label_usuario">Correo Electrónico</string>
     <string name="logout_icon">Cerrar Sesión</string>
-    <string name="consultar">Consultar</string>
-    <string name="chequear_los_actuales">Chequear los actuales</string>
-    <string name="consultar_icon">Ícono de consultar</string>
-    <string name="label_nuevoUser"><u>Nuevo Usuario ? Registrarme Ahora</u></string>
-
-
     <string name="title_activity_inicio">InicioActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Quispe Cueva Manuel</string>
     <string name="nav_header_subtitle">mquispecueva1@upao.edu.pe</string>
-
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Cerrar Sesión</string>
-    <string name="menu_inicio">Inicio</string>
-    <string name="menu_citas">Generar Citas</string>
-    <string name="menu_listar_citas">Mis Citas</string>
-    <string name="menu_perfil">Mi perfil</string>
-    <string name="mis_citas">Mis Citas</string>
-    <string name="welcome_message">Bienvenido a Salud Progreso</string>
-    <string name="inspirational_message">Cuidamos tu salud en cada paso del camino</string>
-    <string name="logo">Logo de Salud Progreso</string>
     <string name="background_image">Imagen de fondo</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="agregarEquipo">Agregar Equipo</string>
+    <string name="eliminarEquipo">Eliminar Equipo</string>
+    <string name="listarEquipos">Listar Equipos</string>
+    <string name="modificarEquipo">Modificar Equipo</string>
+    <string name="buscarEquipo">Buscar Equipo</string>
+    <string name="encuentra_equipos_mediante_su_c_digo_patrimonial">Encuentra equipos mediante su código patrimonial</string>
+    <string name="buscar_equipo_por_codigo">Buscar equipo por código</string>
+    <string name="agregarArticuloAlHistorico">Agregar productos al historico</string>
+    <string name="agregar_articulos_al_inventario_historico">Agregar artículos al inventario Historico</string>
+    <string name="incorporar_un_nuevo_articulo_al_inventario_historico">Incorpora un nuevo artículo al inventario historico</string>
+    <string name="listarArticulos">Listar Articulos</string>
+    <string name="cerrarSesion">cerrar sesion\n</string>
+    <string name="listar_todos_los_articulos_de_inventario_historico">Listar todos los artículos de inventario historico</string>
+    <string name="consulta_la_lista_completa_de_articulos">Consulta la lista completa de artículos</string>
+    <string name="gestion_de_inventario_iestpfm">Gestión de Inventario IESTPFM</string>
+    <string name="agregar_un_equipo">Agregar un equipo</string>
+    <string name="añadir_nuevo_equipo_al_inventario">Añadir nuevo equipo al inventario</string>
+    <string name="eliminar_un_equipo">Eliminar un equipo</string>
+    <string name="remover_equipo_del_inventario">Remover equipo del inventario</string>
+    <string name="listar_todos_los_equipos">Listar todos los equipos</string>
+    <string name="ver_lista_completa_de_equipos">Ver lista completa de equipos</string>
+    <string name="modificar_un_equipo">Modificar un equipo</string>
+    <string name="actualizar_datos_de_un_equipo_existente">Actualizar datos de un equipo existente</string>
+    <string name="escanearCodigoBarras">Escanear Codigo de Barras\n</string>
+    <string name="escanear_codigo_de_barras">Escanear código de barras</string>
+    <string name="utiliza_la_camara_para_escanear_codigos">Utiliza la cámara para escanear códigos</string>
 </resources>
