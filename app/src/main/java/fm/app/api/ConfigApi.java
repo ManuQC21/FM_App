@@ -19,7 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ConfigApi {
 
     // Base URL de tu servidor backend
-    public static final String baseUrlE = "http://10.0.2.2:8080";
+    public static final String baseUrlEe = "http://10.0.2.2:8080";
+    public static final String baseUrlE = "http://192.168.0.17:8080";
     private static Retrofit retrofit;
     private static String token = "";
 
@@ -28,6 +29,10 @@ public class ConfigApi {
     private static FotoApi fotoApi;
     private static InventoryItemsApi inventoryItemsApi;
     private static EquipoApi equipoApi;
+
+    private static EmpleadoApi empleadoApi;
+
+    private static UbicacionApi ubicacionApi;
 
     // Bloque estático para inicializar el cliente Retrofit al cargar la clase
     static {
@@ -106,5 +111,17 @@ public class ConfigApi {
             equipoApi = retrofit.create(EquipoApi.class);
         }
         return equipoApi;
+    }
+    public static EmpleadoApi getEmpleadoApi() {
+        if (empleadoApi == null) {
+            empleadoApi = retrofit.create(EmpleadoApi.class);
+        }
+        return empleadoApi;
+    }
+    public static UbicacionApi getUbicacionApi() {
+        if (ubicacionApi == null) {
+            ubicacionApi = retrofit.create(UbicacionApi.class);
+        }
+        return ubicacionApi;
     }
 }

@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import fm.app.R;
 
-public class GenerarCodigoBarrasPorCodigoPatrimonialDataFragment extends Fragment {
-    private GenerarCodigoBarrasPorCodigoPatrimonialDataFragment binding;
+public class EscanearCodigoBarrasFragment extends Fragment {
+    private EscanearCodigoBarrasFragment binding;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +21,6 @@ public class GenerarCodigoBarrasPorCodigoPatrimonialDataFragment extends Fragmen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_generar_codigo_barras_por_codigo_patrimonial_data, container, false);
+        return inflater.inflate(R.layout.fragment_escanear_codigo_barras, container, false);
     }
 }

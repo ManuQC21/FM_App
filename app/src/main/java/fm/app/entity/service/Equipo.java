@@ -1,6 +1,5 @@
 package fm.app.entity.service;
 
-import java.time.LocalDate;
 public class Equipo {
 
     private int id;
@@ -9,7 +8,7 @@ public class Equipo {
     private String codigoPatrimonial;
     private String descripcion;
     private String estado;
-    private LocalDate fechaCompra;
+    private String fechaCompra; // Cambiado a String
     private String marca;
     private String modelo;
     private String nombreEquipo;
@@ -26,40 +25,7 @@ public class Equipo {
         this.id = id;
     }
 
-    public Equipo(int id, String tipoEquipo, String codigoBarra, String codigoPatrimonial, String descripcion, String estado, LocalDate fechaCompra, String marca, String modelo, String nombreEquipo, String numeroOrden, String serie, Empleado responsable, Ubicacion ubicacion, Foto foto) {
-        this.id = id;
-        this.tipoEquipo = tipoEquipo;
-        this.codigoBarra = codigoBarra;
-        this.codigoPatrimonial = codigoPatrimonial;
-        this.descripcion = descripcion;
-        this.estado = estado;
-        this.fechaCompra = fechaCompra;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.nombreEquipo = nombreEquipo;
-        this.numeroOrden = numeroOrden;
-        this.serie = serie;
-        this.responsable = responsable;
-        this.ubicacion = ubicacion;
-        this.foto = foto;
-    }
-
-    public Equipo(InventoryItems inventoryItems) {
-        this.id = id;
-        this.tipoEquipo = inventoryItems.getTipoEquipo();
-        this.codigoBarra = inventoryItems.getCodigoBarra();
-        this.codigoPatrimonial = inventoryItems.getCodigoPatrimonial();
-        this.descripcion = inventoryItems.getDescripcion();
-        this.estado = inventoryItems.getEstado();
-        this.fechaCompra = inventoryItems.getFechaCompra();
-        this.marca = inventoryItems.getMarca();
-        this.modelo = inventoryItems.getModelo();
-        this.nombreEquipo = inventoryItems.getNombreEquipo();
-        this.numeroOrden = inventoryItems.getNumeroOrden();
-        this.serie = inventoryItems.getSerie();
-        this.responsable = inventoryItems.getResponsable();
-        this.ubicacion = inventoryItems.getUbicacion();
-    }
+    // Getters y setters
 
     public int getId() {
         return id;
@@ -109,11 +75,11 @@ public class Equipo {
         this.estado = estado;
     }
 
-    public LocalDate getFechaCompra() {
+    public String getFechaCompra() {
         return fechaCompra;
     }
 
-    public void setFechaCompra(LocalDate fechaCompra) {
+    public void setFechaCompra(String fechaCompra) {
         this.fechaCompra = fechaCompra;
     }
 

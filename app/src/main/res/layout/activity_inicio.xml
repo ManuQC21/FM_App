@@ -36,10 +36,10 @@
                 android:gravity="center_vertical">
                 <ImageView
                     android:id="@+id/iconoAgregarEquipo"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/agregar"
-                    android:contentDescription="@string/agregarEquipo"
+                    android:contentDescription="@string/agregar_equipo"
                     android:layout_marginEnd="10dp" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -49,14 +49,14 @@
                         android:id="@+id/tituloAgregarEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/agregar_un_equipo"
+                        android:text="@string/agregar_equipo"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/subtituloAgregarEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/añadir_nuevo_equipo_al_inventario"
+                        android:text="@string/descripcion_añadir_nuevo_equipo_al_inventario"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -71,10 +71,10 @@
                 android:gravity="center_vertical">
                 <ImageView
                     android:id="@+id/iconoEliminarEquipo"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/eliminar"
-                    android:contentDescription="@string/eliminarEquipo"
+                    android:contentDescription="@string/eliminar_equipo"
                     android:layout_marginEnd="10dp" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -84,14 +84,14 @@
                         android:id="@+id/tituloEliminarEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/eliminar_un_equipo"
+                        android:text="@string/eliminar_equipo"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/subtituloEliminarEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/remover_equipo_del_inventario"
+                        android:text="@string/descripcion_remover_equipo_del_inventario"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -106,10 +106,10 @@
                 android:gravity="center_vertical">
                 <ImageView
                     android:id="@+id/iconoListarEquipos"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/listar"
-                    android:contentDescription="@string/listarEquipos"
+                    android:contentDescription="@string/listar_equipos"
                     android:layout_marginEnd="10dp" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -119,14 +119,14 @@
                         android:id="@+id/tituloListarEquipos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/listar_todos_los_equipos"
+                        android:text="@string/listar_equipos"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/subtituloListarEquipos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ver_lista_completa_de_equipos"
+                        android:text="@string/Descripcion_ver_lista_completa_de_equipos"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -141,10 +141,10 @@
                 android:gravity="center_vertical">
                 <ImageView
                     android:id="@+id/iconoModificarEquipo"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/modificar"
-                    android:contentDescription="@string/modificarEquipo"
+                    android:contentDescription="@string/modificar_equipo"
                     android:layout_marginEnd="10dp" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -154,14 +154,14 @@
                         android:id="@+id/tituloModificarEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/modificar_un_equipo"
+                        android:text="@string/modificar_equipo"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/subtituloModificarEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/actualizar_datos_de_un_equipo_existente"
+                        android:text="@string/descripcion_actualizar_datos_de_un_equipo_existente"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -176,10 +176,10 @@
                 android:gravity="center_vertical">
                 <ImageView
                     android:id="@+id/iconoBuscarEquipo"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/buscar"
-                    android:contentDescription="@string/buscarEquipo"
+                    android:contentDescription="@string/buscar_equipo_por_codigo"
                     android:layout_marginEnd="10dp" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -196,7 +196,7 @@
                         android:id="@+id/subtituloBuscarEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/encuentra_equipos_mediante_su_c_digo_patrimonial"
+                        android:text="@string/descripcion_encuentra_equipos_mediante_su_codigo_patrimonial"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -211,10 +211,10 @@
                 android:gravity="center_vertical">
                 <ImageView
                     android:id="@+id/iconoAgregarArticulo"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/agregar"
-                    android:contentDescription="@string/agregarArticuloAlHistorico"
+                    android:contentDescription="@string/agregar_articulo_historico"
                     android:layout_marginEnd="10dp" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -224,14 +224,14 @@
                         android:id="@+id/tituloAgregarArticulo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/agregar_articulos_al_inventario_historico"
+                        android:text="@string/agregar_articulo_historico"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/subtituloAgregarArticulo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/incorporar_un_nuevo_articulo_al_inventario_historico"
+                        android:text="@string/descripcion_incorporar_un_nuevo_articulo_al_inventario_historico"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -246,10 +246,10 @@
                 android:gravity="center_vertical">
                 <ImageView
                     android:id="@+id/iconoListarArticulos"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/listar"
-                    android:contentDescription="@string/listarArticulos"
+                    android:contentDescription="@string/listar_articulos_historicos"
                     android:layout_marginEnd="10dp" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -259,14 +259,14 @@
                         android:id="@+id/tituloListarArticulos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/listar_todos_los_articulos_de_inventario_historico"
+                        android:text="@string/listar_articulos_historicos"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/subtituloListarArticulos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/consulta_la_lista_completa_de_articulos"
+                        android:text="@string/descrpcion_consulta_la_lista_completa_de_articulos"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -281,10 +281,10 @@
                 android:gravity="center_vertical">
                 <ImageView
                     android:id="@+id/iconoEscanearCodigoBarras"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/escanear"
-                    android:contentDescription="@string/escanearCodigoBarras"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/scan"
+                    android:contentDescription="@string/escanear_codigo_barras"
                     android:layout_marginEnd="10dp" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -294,30 +294,30 @@
                         android:id="@+id/tituloEscanearCodigoBarras"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/escanear_codigo_de_barras"
+                        android:text="@string/escanear_codigo_barras"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/subtituloEscanearCodigoBarras"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/utiliza_la_camara_para_escanear_codigos"
+                        android:text="@string/descripcion_utiliza_la_camara_para_escanear_codigos"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
-
+            <ImageView
+                android:id="@+id/btnCerrarSesion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/exit"
+                android:contentDescription="@string/cerrar_sesion"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true" />
         </LinearLayout>
     </ScrollView>
-    <ImageView
-        android:id="@+id/btnCerrarSesion"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:src="@drawable/salir"
-        android:contentDescription="@string/cerrarSesion"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:padding="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true" />
 </RelativeLayout>

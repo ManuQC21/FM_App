@@ -12,11 +12,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import fm.app.Activity.ui.inventariobd.AgregarArticuloAlInventarioDataFragment;
+import fm.app.Activity.ui.inventariobd.BuscarPorCodigoPatrimonialDataFragment;
+import fm.app.Activity.ui.inventariobd.EscanearCodigoBarrasFragment;
+import fm.app.Activity.ui.inventariobd.ListarArticulosEnInventarioDataFragment;
 import fm.app.R;
 import fm.app.entity.service.Usuario;
+import fm.app.Activity.ui.equipos.*;
 
 public class InicioActivity extends AppCompatActivity {
     private Usuario usuario;
@@ -45,6 +53,23 @@ public class InicioActivity extends AppCompatActivity {
     private void initViews() {
         btnLogout = findViewById(R.id.btnCerrarSesion);
         btnLogout.setOnClickListener(view -> onBackPressed());
+
+        findViewById(R.id.contenedorAgregarEquipo).setOnClickListener(v -> navigateToFragment(new AgregarFragment()));
+        findViewById(R.id.contenedorEliminarEquipo).setOnClickListener(v -> navigateToFragment(new EliminarFragment()));
+        findViewById(R.id.contenedorListarEquipos).setOnClickListener(v -> navigateToFragment(new ListarFragment()));
+        findViewById(R.id.contenedorModificarEquipo).setOnClickListener(v -> navigateToFragment(new ModificarFragment()));
+        findViewById(R.id.contenedorBuscarEquipo).setOnClickListener(v -> navigateToFragment(new BuscarPorCodigoPatrimonialDataFragment()));
+        findViewById(R.id.contenedorAgregarArticulo).setOnClickListener(v -> navigateToFragment(new AgregarArticuloAlInventarioDataFragment()));
+        findViewById(R.id.contenedorListarArticulos).setOnClickListener(v -> navigateToFragment(new ListarArticulosEnInventarioDataFragment()));
+        findViewById(R.id.contenedorEscanearCodigoBarras).setOnClickListener(v -> navigateToFragment(new EscanearCodigoBarrasFragment()));
+    }
+
+    private void navigateToFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.layoutPrincipal, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override

@@ -37,4 +37,7 @@
     <!-- Otros -->
     <color name="azul_general_claro">#3F51B5</color> <!-- Tono de azul usado generalmente en la app -->
     <color name="grisaceo_oscuro">#3A3A3A</color> <!-- Otro tono de gris -->
+
+    <color name="high_contrast_text">#000000</color>  <!-- Un negro más fuerte puede ser mejor para el contraste -->
+
 </resources>
