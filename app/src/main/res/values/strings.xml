@@ -73,4 +73,9 @@
 
     <!-- Closure -->
     <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="modificar_productos">Modificar Equipos</string>
+    <string name="descripcion_modificar_productos">Aqui se podrá modificar los equipos solicitados</string>
+    <string name="ver">Ver equipo</string>
+    <string name="editar">Editar Equipo</string>
+    <string name="eliminar">Eliminar Equipo</string>
 </resources>
