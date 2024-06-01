@@ -1,6 +1,7 @@
 package fm.app.Activity.ui.equipos;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,21 +24,41 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import fm.app.Activity.InicioActivity;
 import fm.app.R;
+import fm.app.entity.service.Empleado;
 import fm.app.entity.service.Equipo;
+import fm.app.entity.service.Ubicacion;
+import fm.app.viewModel.EmpleadoViewModel;
 import fm.app.viewModel.EquipoViewModel;
+import fm.app.viewModel.UbicacionViewModel;
 
 public class ModificarFragment extends Fragment {
     private EquipoViewModel equipoViewModel;
-    private TextInputEditText txtTipoEquipo, txtCodigoPatrimonial, txtDescripcion, txtMarca, txtModelo, txtNombreEquipo, txtNumeroOrden, txtNumeroSerie, edtFechaCompra;
-    private AutoCompleteTextView dropdownEstado;
+    private EmpleadoViewModel empleadoViewModel;
+    private UbicacionViewModel ubicacionViewModel;
+
+    private TextInputEditText txtTipoEquipo, txtDescripcion, txtMarca, txtModelo, txtNombreEquipo, txtNumeroOrden, txtNumeroSerie, edtFechaCompra;
+    private AutoCompleteTextView dropdownEstado, dropdownResponsable, dropdownUbicacion;
     private Button btnModificarEquipo;
+    private int equipoId;
+
     private final Calendar calendar = Calendar.getInstance();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            equipoId = getArguments().getInt("equipoId", -1);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_modificar, container, false);
         equipoViewModel = new ViewModelProvider(this).get(EquipoViewModel.class);
+        empleadoViewModel = new ViewModelProvider(this).get(EmpleadoViewModel.class);
+        ubicacionViewModel = new ViewModelProvider(this).get(UbicacionViewModel.class);
 
         txtTipoEquipo = view.findViewById(R.id.txtTipoEquipoModificar);
         txtDescripcion = view.findViewById(R.id.txtDescripcionModificar);
@@ -48,9 +69,10 @@ public class ModificarFragment extends Fragment {
         txtNumeroSerie = view.findViewById(R.id.txtNumeroDeSerieModificar);
         edtFechaCompra = view.findViewById(R.id.edtFechaCompraModificar);
         dropdownEstado = view.findViewById(R.id.dropdownEstadoModificar);
+        dropdownResponsable = view.findViewById(R.id.dropdownResponsableModificar);
+        dropdownUbicacion = view.findViewById(R.id.dropdownUbicacionModificar);
         btnModificarEquipo = view.findViewById(R.id.btnModificarEquipo);
 
-        // Configuración de la toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbarModificar);
         ImageView btnVolverAtras = view.findViewById(R.id.btnVolverAtrasModificar);
         btnVolverAtras.setOnClickListener(v -> getParentFragmentManager().popBackStack());
@@ -59,6 +81,8 @@ public class ModificarFragment extends Fragment {
         btnModificarEquipo.setOnClickListener(v -> modificarEquipo());
 
         cargarEstados();
+        cargarResponsables();
+        cargarUbicaciones();
 
         return view;
     }
@@ -76,8 +100,8 @@ public class ModificarFragment extends Fragment {
 
     private void modificarEquipo() {
         Equipo equipo = new Equipo();
+        equipo.setId(equipoId);
         equipo.setTipoEquipo(txtTipoEquipo.getText().toString());
-        equipo.setCodigoPatrimonial(txtCodigoPatrimonial.getText().toString());
         equipo.setDescripcion(txtDescripcion.getText().toString());
         equipo.setEstado(dropdownEstado.getText().toString());
         equipo.setFechaCompra(edtFechaCompra.getText().toString());
@@ -87,15 +111,62 @@ public class ModificarFragment extends Fragment {
         equipo.setNumeroOrden(txtNumeroOrden.getText().toString());
         equipo.setSerie(txtNumeroSerie.getText().toString());
 
-        equipoViewModel.updateEquipo(equipo).observe(getViewLifecycleOwner(), response -> {
-            if (response.getRpta() == 1) {
-                Toast.makeText(getContext(), "Equipo modificado con éxito", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "Error al modificar equipo: " + response.getMessage(), Toast.LENGTH_LONG).show();
+        String nombreResponsable = dropdownResponsable.getText().toString();
+        String ambienteUbicacion = dropdownUbicacion.getText().toString();
+
+        empleadoViewModel.listarEmpleados().observe(getViewLifecycleOwner(), empleadoResponse -> {
+            if (empleadoResponse != null && empleadoResponse.getRpta() == 1) {
+                for (Empleado empleado : empleadoResponse.getBody()) {
+                    if (empleado.getNombre().equals(nombreResponsable)) {
+                        equipo.setResponsable(empleado);
+                        break;
+                    }
+                }
             }
+
+            ubicacionViewModel.listarUbicaciones().observe(getViewLifecycleOwner(), ubicacionResponse -> {
+                if (ubicacionResponse != null && ubicacionResponse.getRpta() == 1) {
+                    for (Ubicacion ubicacion : ubicacionResponse.getBody()) {
+                        if (ubicacion.getAmbiente().equals(ambienteUbicacion)) {
+                            equipo.setUbicacion(ubicacion);
+                            break;
+                        }
+                    }
+
+                    equipoViewModel.updateEquipo(equipo).observe(getViewLifecycleOwner(), updateResponse -> {
+                        if (updateResponse != null && updateResponse.getRpta() == 1) {
+                            Toast.makeText(getContext(), "Equipo modificado con éxito", Toast.LENGTH_SHORT).show();
+                            limpiarCampos();
+                            // Código para redirigir al usuario a InicioActivity y cerrar la sesión actual
+                            Intent intent = new Intent(getContext(), InicioActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            getActivity().finish();
+
+                        } else {
+                            Toast.makeText(getContext(), "Error al modificar equipo: " + (updateResponse != null ? updateResponse.getMessage() : "Error desconocido"), Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+
+                }
+            });
         });
     }
 
+    private void limpiarCampos() {
+        txtTipoEquipo.setText("");
+        txtDescripcion.setText("");
+        dropdownEstado.setText("");
+        edtFechaCompra.setText("");
+        txtMarca.setText("");
+        txtModelo.setText("");
+        txtNombreEquipo.setText("");
+        txtNumeroOrden.setText("");
+        txtNumeroSerie.setText("");
+        dropdownResponsable.setText("");
+        dropdownUbicacion.setText("");
+    }
     private void cargarEstados() {
         List<String> estados = new ArrayList<>();
         estados.add("Mal estado");
@@ -106,5 +177,31 @@ public class ModificarFragment extends Fragment {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, estados);
         dropdownEstado.setAdapter(adapter);
+    }
+
+    private void cargarResponsables() {
+        empleadoViewModel.listarEmpleados().observe(getViewLifecycleOwner(), response -> {
+            if (response.getRpta() == 1) {
+                List<String> nombres = new ArrayList<>();
+                for (Empleado empleado : response.getBody()) {
+                    nombres.add(empleado.getNombre());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, nombres);
+                dropdownResponsable.setAdapter(adapter);
+            }
+        });
+    }
+
+    private void cargarUbicaciones() {
+        ubicacionViewModel.listarUbicaciones().observe(getViewLifecycleOwner(), response -> {
+            if (response.getRpta() == 1) {
+                List<String> ubicaciones = new ArrayList<>();
+                for (Ubicacion ubicacion : response.getBody()) {
+                    ubicaciones.add(ubicacion.getAmbiente());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, ubicaciones);
+                dropdownUbicacion.setAdapter(adapter);
+            }
+        });
     }
 }

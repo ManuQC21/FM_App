@@ -119,7 +119,7 @@ public class AgregarFragment extends Fragment {
         String nombreResponsable = dropdownResponsable.getText().toString();
         String ambienteUbicacion = dropdownUbicacion.getText().toString();
 
-        empleadoViewModel.listarEmpleados().observe(getViewLifecycleOwner(), response -> {
+            empleadoViewModel.listarEmpleados().observe(getViewLifecycleOwner(), response -> {
             if (response.getRpta() == 1) {
                 for (Empleado empleado : response.getBody()) {
                     if (empleado.getNombre().equals(nombreResponsable)) {

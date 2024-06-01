@@ -138,4 +138,17 @@ public class Equipo {
     public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
+
+    public void setResponsableId(int id) {
+        Empleado emp = new Empleado();
+        emp.setId(id);
+        this.responsable = emp;
+    }
+
+    public void setUbicacionId(int id) {
+        Ubicacion ubic = new Ubicacion();
+        ubic.setId(id);
+        this.ubicacion = ubic;
+    }
+
 }

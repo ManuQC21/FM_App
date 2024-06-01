@@ -1,28 +1,34 @@
 package fm.app.Activity.ui.equipos;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import fm.app.R;
 import fm.app.adapter.EquipoAdapter;
-import fm.app.entity.service.Equipo;
 import fm.app.viewModel.EquipoViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListarFragment extends Fragment implements EquipoAdapter.OnItemClickListener {
 
     private EquipoViewModel equipoViewModel;
     private RecyclerView recyclerViewEquipos;
     private EquipoAdapter equipoAdapter;
+    private ProgressBar progressBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,30 +42,86 @@ public class ListarFragment extends Fragment implements EquipoAdapter.OnItemClic
         View view = inflater.inflate(R.layout.fragment_listar, container, false);
 
         recyclerViewEquipos = view.findViewById(R.id.recyclerViewEquipos);
+        progressBar = view.findViewById(R.id.progressBar);
         recyclerViewEquipos.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Inicializa el adaptador aquí con una lista vacía o inicial
         equipoAdapter = new EquipoAdapter(new ArrayList<>(), this);
         recyclerViewEquipos.setAdapter(equipoAdapter);
 
+        progressBar.setVisibility(View.VISIBLE);
         equipoViewModel.listAllEquipos().observe(getViewLifecycleOwner(), response -> {
+            progressBar.setVisibility(View.GONE);
             if (response != null && response.getRpta() == 1 && response.getBody() != null) {
-                equipoAdapter.updateData(response.getBody());  // Actualiza los datos en el adaptador
+                equipoAdapter.updateData(response.getBody());
+            } else {
+                Toast.makeText(getContext(), "Error al cargar equipos: " + (response != null ? response.getMessage() : "Unknown error"), Toast.LENGTH_LONG).show();
             }
         });
-
+        // Configuración del botón para volver atrás
+        ImageView btnVolverAtras = view.findViewById(R.id.btnVolverAtras);
+        btnVolverAtras.setOnClickListener(v -> {
+            if (getFragmentManager() != null) {
+                getFragmentManager().popBackStack();
+            }
+        });
         return view;
     }
 
     @Override
     public void onEditClick(int equipoId) {
+        Log.d("ListarFragment", "Edit clicked for ID: " + equipoId); // Añade esta línea para debugging
         ModificarFragment modificarFragment = new ModificarFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("equipoId", equipoId);
+        bundle.putInt("equipoId", equipoId);  // Envía el ID del equipo al ModificarFragment
         modificarFragment.setArguments(bundle);
+        if (isAdded()) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, modificarFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void onViewClick(int equipoId) {
+        DetalleEquipoFragment detalleFragment = new DetalleEquipoFragment();
+        Bundle args = new Bundle();
+        args.putInt("equipoId", equipoId);
+        detalleFragment.setArguments(args);
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, modificarFragment)
+                .replace(R.id.fragment_container, detalleFragment)
                 .addToBackStack(null)
                 .commit();
     }
+
+    @Override
+    public void onDeleteClick(int equipoId) {
+        // Crear un AlertDialog para confirmar la eliminación
+        new AlertDialog.Builder(getContext())
+                .setTitle("Eliminar Equipo")
+                .setMessage("¿Estás seguro de eliminar este equipo?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    // Usuario confirma la eliminación
+                    equipoViewModel.deleteEquipo(equipoId).observe(getViewLifecycleOwner(), response -> {
+                        if (response != null && response.getRpta() == 1) {
+                            Toast.makeText(getContext(), "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
+                            // Actualizar la lista de equipos
+                            equipoViewModel.listAllEquipos().observe(getViewLifecycleOwner(), equipoResponse -> {
+                                if (equipoResponse != null && equipoResponse.getRpta() == 1) {
+                                    equipoAdapter.updateData(equipoResponse.getBody());
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getContext(), "Error al eliminar equipo: " + (response != null ? response.getMessage() : "Error desconocido"), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    // Usuario cancela la operación
+                    dialog.dismiss();
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
 }

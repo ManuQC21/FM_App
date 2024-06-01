@@ -7,6 +7,12 @@
     android:background="#FFFFFF"
     tools:context=".Activity.ui.equipos.ListarFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
     <!-- Toolbar con título y logo -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarListar"

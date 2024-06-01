@@ -42,4 +42,9 @@ public class EquipoViewModel extends AndroidViewModel {
     public LiveData<GenericResponse<Equipo>> findEquipoByCodigoPatrimonial(String codigoPatrimonial) {
         return equipoRepository.findEquipoByCodigoPatrimonial(codigoPatrimonial);
     }
+    // Método para obtener un equipo por su ID
+    public LiveData<GenericResponse<Equipo>> getEquipoById(Integer id) {
+        return equipoRepository.getEquipoById(id);
+    }
+
 }

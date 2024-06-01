@@ -20,6 +20,8 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoView
 
     public interface OnItemClickListener {
         void onEditClick(int equipoId);
+        void onViewClick(int equipoId);
+        void onDeleteClick(int equipoId);
     }
 
     public EquipoAdapter(List<Equipo> equipos, OnItemClickListener listener) {
@@ -40,7 +42,13 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoView
         holder.nombreEquipo.setText(equipo.getNombreEquipo());
         holder.tipoEquipo.setText(equipo.getTipoEquipo());
         holder.estadoEquipo.setText(equipo.getEstado());
-        holder.editButton.setOnClickListener(v -> listener.onEditClick(equipo.getId()));
+
+        // Asegúrate de que el listener no sea nulo y esté correctamente configurado
+        if (listener != null) {
+            holder.editButton.setOnClickListener(v -> listener.onEditClick(equipo.getId()));
+            holder.viewButton.setOnClickListener(v -> listener.onViewClick(equipo.getId()));
+            holder.deleteButton.setOnClickListener(v -> listener.onDeleteClick(equipo.getId()));
+        }
     }
 
     @Override
@@ -50,7 +58,7 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoView
 
     public static class EquipoViewHolder extends RecyclerView.ViewHolder {
         TextView nombreEquipo, tipoEquipo, estadoEquipo;
-        ImageView editButton;
+        ImageView editButton, viewButton, deleteButton;
 
         EquipoViewHolder(View itemView) {
             super(itemView);
@@ -58,8 +66,11 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoView
             tipoEquipo = itemView.findViewById(R.id.txtTipoEquipo);
             estadoEquipo = itemView.findViewById(R.id.txtEstado);
             editButton = itemView.findViewById(R.id.ic_edit);
+            viewButton = itemView.findViewById(R.id.ic_view);
+            deleteButton = itemView.findViewById(R.id.ic_delete);
         }
     }
+
     public void updateData(List<Equipo> newEquipos) {
         equipos.clear();
         equipos.addAll(newEquipos);

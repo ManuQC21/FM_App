@@ -61,14 +61,8 @@
     <string name="descripcion_utiliza_la_camara_para_escanear_codigos">Utiliza la Cámara para Escanear Códigos de Barras para Agregar un nuevo Equipo</string>
 
 
-
-
     <string name="volver">Volver</string>
     <string name="nombre_equipo">Nombre del Equipo:</string>
-
-
-
-
 
 
     <!-- Closure -->
@@ -78,4 +72,45 @@
     <string name="ver">Ver equipo</string>
     <string name="editar">Editar Equipo</string>
     <string name="eliminar">Eliminar Equipo</string>
+    <string name="view_codigo_barras">"Codigo de Barras : "</string>
+    <string name="view_tipo_equipo">"Tipo de Equipo : "</string>
+    <string name="detalle_de_equipo">Detalle del Equipo</string>
+    <string name="view_codigo_patrimonial">"Codigo Patrimonial : "</string>
+    <string name="view_descripcion">Descripción :</string>
+    <string name="view_estado">"Estado : "</string>
+    <string name="view_fecha_compra">"Fecha de Compra : "</string>
+    <string name="view_marca">"Marca : "</string>
+    <string name="view_modelo">"Modelo : "</string>
+    <string name="view_nombre_de_equipo">"Nombre del Equipo : "</string>
+    <string name="view_numero_de_orden">"Numero de Orden : "</string>
+    <string name="view_serie">"Serie : "</string>
+    <string name="total_detalles">Total Detalles</string>
+    <string name="view_nombre">"Nombre del Responsable : "</string>
+    <string name="view_cargo">"Cargo : "</string>
+    <string name="detalle_del_responsable">Detalles del Responsable</string>
+    <string name="detalle_de_ubicacion">Detalle de Ubicación</string>
+    <string name="view_ambiente">"Ambiente : "</string>
+    <string name="view_ubicacion_fisica">Ubicacion Fisica</string>
+
+
+    <!-- Detalles del equipo -->
+    <string name="tipo_equipo_value">Impresora</string>
+    <string name="codigo_barra_value">1000234321</string>
+    <string name="codigo_patrimonial_value">CPAT20242401</string>
+    <string name="descripcion_value">Impresora láser color, modelo avanzado con capacidad de red.</string>
+    <string name="estado_value">Operativo</string>
+    <string name="fecha_compra_value">15-05-2024</string>
+    <string name="marca_value">Brother</string>
+    <string name="modelo_value">HL-L8360CDW</string>
+    <string name="nombre_equipo_value">Impresora Secretaría</string>
+    <string name="numero_orden_value">ORD-99281</string>
+    <string name="serie_value">BRT20290017</string>
+
+    <!-- Detalles del responsable -->
+    <string name="nombre_responsable_value">Julio Mendoza</string>
+    <string name="cargo_responsable_value">Jefe de Operaciones</string>
+
+    <!-- Detalles de la ubicación -->
+    <string name="ambiente_value">Oficina de Administración</string>
+    <string name="ubicacion_fisica_value">Edificio Central, Piso 2</string>
 </resources>

@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkForActiveSession() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String pref = preferences.getString("UsuarioJson", "");
-        if (!pref.isEmpty()) {
+        if (!pref.isEmpty() && !isFinishing()) {
             toastCorrecto("Se detectó una sesión activa, el login será omitido!");
             Intent intent = new Intent(this, InicioActivity.class);
             intent.putExtra("UsuarioJson", pref);

@@ -30,4 +30,7 @@ public interface EquipoApi {
     // Método para buscar un equipo por código patrimonial
     @GET(base + "/buscarPorCodigoPatrimonial/{codigoPatrimonial}")
     Call<GenericResponse<Equipo>> findEquipoByCodigoPatrimonial(@Path("codigoPatrimonial") String codigoPatrimonial);
+
+    @GET(base + "/{id}")
+    Call<GenericResponse<Equipo>> getEquipoById(@Path("id") Integer id);
 }

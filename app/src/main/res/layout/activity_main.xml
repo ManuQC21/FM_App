@@ -112,5 +112,4 @@
             android:fontFamily="@font/poppins_medium"
             android:text="@string/label_start_session" />
     </LinearLayout>
-
 </RelativeLayout>

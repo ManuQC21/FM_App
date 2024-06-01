@@ -53,11 +53,9 @@ public class InicioActivity extends AppCompatActivity {
     private void initViews() {
         btnLogout = findViewById(R.id.btnCerrarSesion);
         btnLogout.setOnClickListener(view -> onBackPressed());
-
         findViewById(R.id.contenedorAgregarEquipo).setOnClickListener(v -> navigateToFragment(new AgregarFragment()));
         findViewById(R.id.contenedorEliminarEquipo).setOnClickListener(v -> navigateToFragment(new EliminarFragment()));
         findViewById(R.id.contenedorListarEquipos).setOnClickListener(v -> navigateToFragment(new ListarFragment()));
-        findViewById(R.id.contenedorModificarEquipo).setOnClickListener(v -> navigateToFragment(new ModificarFragment()));
         findViewById(R.id.contenedorBuscarEquipo).setOnClickListener(v -> navigateToFragment(new BuscarPorCodigoPatrimonialDataFragment()));
         findViewById(R.id.contenedorAgregarArticulo).setOnClickListener(v -> navigateToFragment(new AgregarArticuloAlInventarioDataFragment()));
         findViewById(R.id.contenedorListarArticulos).setOnClickListener(v -> navigateToFragment(new ListarArticulosEnInventarioDataFragment()));
@@ -67,7 +65,7 @@ public class InicioActivity extends AppCompatActivity {
     private void navigateToFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layoutPrincipal, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment); // Cambio aquí
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

@@ -123,4 +123,26 @@ public class EquipoRepository {
         });
         return liveData;
     }
+    // Obtener un equipo por su ID
+    public LiveData<GenericResponse<Equipo>> getEquipoById(Integer id) {
+        MutableLiveData<GenericResponse<Equipo>> liveData = new MutableLiveData<>();
+        equipoApi.getEquipoById(id).enqueue(new Callback<GenericResponse<Equipo>>() {
+            @Override
+            public void onResponse(Call<GenericResponse<Equipo>> call, Response<GenericResponse<Equipo>> response) {
+                if (response.isSuccessful()) {
+                    liveData.setValue(response.body());
+                } else {
+                    liveData.setValue(new GenericResponse<>(null, -1, "Error al obtener detalles del equipo", null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericResponse<Equipo>> call, Throwable t) {
+                liveData.setValue(new GenericResponse<>(null, -1, "Fallo en la conexión: " + t.getMessage(), null));
+            }
+        });
+        return liveData;
+    }
+
+
 }
