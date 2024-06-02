@@ -8,6 +8,7 @@ import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -96,32 +97,35 @@ public class EscanearCodigoBarrasFragment extends Fragment {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                 Uri savedUri = Uri.fromFile(photoFile);
-                sendImageToServer(savedUri);
+                sendImageToServer(savedUri, photoFile);
             }
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
                 Toast.makeText(getContext(), "Error taking photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                if (photoFile.exists()) {
+                    photoFile.delete();
+                }
             }
         });
     }
 
-    private void sendImageToServer(Uri fileUri) {
-        File file = new File(fileUri.getPath());
-        RequestBody requestFile = RequestBody.create(MediaType.get("image/png"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+    private void sendImageToServer(Uri fileUri, File photoFile) {
+        RequestBody requestFile = RequestBody.create(MediaType.get("image/png"), photoFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", photoFile.getName(), requestFile);
 
         equipoViewModel.scanAndCopyBarcodeData(body).observe(getViewLifecycleOwner(), response -> {
+            // Eliminar el archivo después de enviarlo al servidor, sin importar el resultado
+            if (photoFile.exists()) {
+                photoFile.delete();
+            }
+
             if (response.getRpta() == Global.RPTA_OK) {
-                navigateToDetailsFragment(response.getBody());
+                showCustomDialog(response.getBody());
             } else {
                 showAlert("Error", response.getMessage());
             }
         });
-    }
-
-    private void navigateToDetailsFragment(Equipo equipo) {
-        Toast.makeText(getContext(), "Equipo: " + equipo.getNombreEquipo(), Toast.LENGTH_LONG).show();
     }
 
     private void showAlert(String title, String message) {
@@ -131,6 +135,42 @@ public class EscanearCodigoBarrasFragment extends Fragment {
                 .setPositiveButton("OK", null)
                 .show();
     }
+
+    private void showCustomDialog(Equipo equipo) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View customLayout = getLayoutInflater().inflate(R.layout.custom_dialog_equipo, null);
+        builder.setView(customLayout);
+        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Configuración de los campos de texto para la información del equipo
+        ((TextView) customLayout.findViewById(R.id.tvNombreEquipo)).setText(safeString(equipo.getNombreEquipo()));
+        ((TextView) customLayout.findViewById(R.id.tvTipoEquipo)).setText(safeString(equipo.getTipoEquipo()));
+        ((TextView) customLayout.findViewById(R.id.tvMarca)).setText(safeString(equipo.getMarca()));
+        ((TextView) customLayout.findViewById(R.id.tvModelo)).setText(safeString(equipo.getModelo()));
+        ((TextView) customLayout.findViewById(R.id.tvSerie)).setText(safeString(equipo.getSerie()));
+        ((TextView) customLayout.findViewById(R.id.tvNumeroOrden)).setText(safeString(equipo.getNumeroOrden()));
+        ((TextView) customLayout.findViewById(R.id.tvDescripcion)).setText(safeString(equipo.getDescripcion()));
+        ((TextView) customLayout.findViewById(R.id.tvEstado)).setText(safeString(equipo.getEstado()));
+        ((TextView) customLayout.findViewById(R.id.tvCodigoPatrimonial)).setText(safeString(equipo.getCodigoPatrimonial()));
+        ((TextView) customLayout.findViewById(R.id.tvCodigoBarra)).setText(safeString(equipo.getCodigoBarra()));
+        ((TextView) customLayout.findViewById(R.id.tvFechaCompra)).setText(equipo.getFechaCompra() != null ? equipo.getFechaCompra().toString() : "-");
+
+        // Configuración de los campos de texto para la información del responsable
+        ((TextView) customLayout.findViewById(R.id.tvNombreResponsable)).setText(safeString(equipo.getResponsable() != null ? equipo.getResponsable().getNombre() : "-"));
+        ((TextView) customLayout.findViewById(R.id.tvCargoResponsable)).setText(safeString(equipo.getResponsable() != null ? equipo.getResponsable().getCargo() : "-"));
+
+        // Configuración de los campos de texto para la información de la ubicación
+        ((TextView) customLayout.findViewById(R.id.tvAmbiente)).setText(safeString(equipo.getUbicacion() != null ? equipo.getUbicacion().getAmbiente() : "-"));
+        ((TextView) customLayout.findViewById(R.id.tvUbicacionFisica)).setText(safeString(equipo.getUbicacion() != null ? equipo.getUbicacion().getUbicacionFisica() : "-"));
+    }
+
+    private String safeString(String text) {
+        return text != null ? text : "-";
+    }
+
 
     private boolean allPermissionsGranted() {
         return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
