@@ -225,9 +225,12 @@ public class EquipoRepository {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                // Puedes manejar errores de red aquí
                 liveData.setValue(null);
             }
         });
         return liveData;
     }
+
+
 }

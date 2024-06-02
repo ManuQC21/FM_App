@@ -130,5 +130,8 @@
     <string name="buscar_por_fechas">Buscar Por Fechas</string>
     <string name="filtrar">Filtrar</string>
     <string name="analizar">Analizar Codigo de Barras</string>
+    <string name="reporte_equipos">reporte de equipos</string>
+    <string name="titulo_reporte_equipos">Descargar Reporte de Equipos</string>
+    <string name="descripcion_reporte_equipos">Descarga un reporte en excel de todos los equipos</string>
 
 </resources>
