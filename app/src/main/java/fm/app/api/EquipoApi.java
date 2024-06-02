@@ -4,6 +4,8 @@ import java.util.List;
 
 import fm.app.entity.service.Equipo;
 import fm.app.entity.GenericResponse;
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -27,10 +29,27 @@ public interface EquipoApi {
     @GET(base + "/listar")
     Call<GenericResponse<List<Equipo>>> listAllEquipos();
 
-    // Método para buscar un equipo por código patrimonial
-    @GET(base + "/buscarPorCodigoPatrimonial/{codigoPatrimonial}")
-    Call<GenericResponse<Equipo>> findEquipoByCodigoPatrimonial(@Path("codigoPatrimonial") String codigoPatrimonial);
-
     @GET(base + "/{id}")
     Call<GenericResponse<Equipo>> getEquipoById(@Path("id") Integer id);
+
+    // Filtros
+    @GET(base + "/filtro/nombre")
+    Call<GenericResponse<List<Equipo>>> filtroPorNombre(@Query("nombreEquipo") String nombreEquipo);
+
+    @GET(base + "/filtro/codigoPatrimonial")
+    Call<GenericResponse<List<Equipo>>> filtroCodigoPatrimonial(@Query("codigoPatrimonial") String codigoPatrimonial);
+
+    @GET(base + "/filtro/fechaCompra")
+    Call<GenericResponse<List<Equipo>>> filtroFechaCompraBetween(
+            @Query("fechaInicio") String fechaInicio,
+            @Query("fechaFin") String fechaFin);
+
+
+    @Multipart
+    @POST(base + "/escanearCodigoBarra")
+    Call<GenericResponse<Equipo>> escanearCodigoBarra(@Part MultipartBody.Part file);
+
+    // Método para descargar un reporte de Excel de los equipos
+    @GET(base + "/descargarReporte")
+    Call<ResponseBody> downloadExcelReport();
 }

@@ -7,6 +7,9 @@ import androidx.lifecycle.LiveData;
 import fm.app.entity.GenericResponse;
 import fm.app.entity.service.Equipo;
 import fm.app.repository.EquipoRepository;
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
+
 import java.util.List;
 
 public class EquipoViewModel extends AndroidViewModel {
@@ -37,14 +40,27 @@ public class EquipoViewModel extends AndroidViewModel {
     public LiveData<GenericResponse<List<Equipo>>> listAllEquipos() {
         return equipoRepository.listAllEquipos();
     }
-
-    // Método para buscar un equipo por su código patrimonial
-    public LiveData<GenericResponse<Equipo>> findEquipoByCodigoPatrimonial(String codigoPatrimonial) {
-        return equipoRepository.findEquipoByCodigoPatrimonial(codigoPatrimonial);
-    }
     // Método para obtener un equipo por su ID
     public LiveData<GenericResponse<Equipo>> getEquipoById(Integer id) {
         return equipoRepository.getEquipoById(id);
     }
+    // Métodos para utilizar los filtros
+    public LiveData<GenericResponse<List<Equipo>>> filtroPorNombre(String nombreEquipo) {
+        return equipoRepository.filtroPorNombre(nombreEquipo);
+    }
 
+    public LiveData<GenericResponse<List<Equipo>>> filtroCodigoPatrimonial(String codigoPatrimonial) {
+        return equipoRepository.filtroCodigoPatrimonial(codigoPatrimonial);
+    }
+
+    public LiveData<GenericResponse<List<Equipo>>> filtroFechaCompraBetween(String fechaInicio, String fechaFin) {
+        return equipoRepository.filtroFechaCompraBetween(fechaInicio, fechaFin);
+    }
+    public LiveData<GenericResponse<Equipo>> scanAndCopyBarcodeData(MultipartBody.Part file) {
+        return equipoRepository.scanAndCopyBarcodeData(file);
+    }
+
+    public LiveData<ResponseBody> downloadExcelReport() {
+        return equipoRepository.downloadExcelReport();
+    }
 }

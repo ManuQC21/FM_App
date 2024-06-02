@@ -9,6 +9,9 @@ public class Global {
     public static final String TIPO_RESULT = "result";
     public static final String TIPO_DATA = "data";
     public static final String TIPO_AUTH = "auth";
+    public static final String TIPO_ERROR = "ERROR";
+    public static final String TIPO_CORRECTO = "SUCCESS";
+    public static final String TIPO_CUIDADO = "WARNING";
     public static final int RPTA_OK = 1;
     public static final int RPTA_WARNING = 0;
     public static final int RPTA_ERROR = -1;

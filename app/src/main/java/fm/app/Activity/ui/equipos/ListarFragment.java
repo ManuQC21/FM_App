@@ -9,18 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import fm.app.R;
 import fm.app.adapter.EquipoAdapter;
 import fm.app.viewModel.EquipoViewModel;
-
 import java.util.ArrayList;
 
 public class ListarFragment extends Fragment implements EquipoAdapter.OnItemClickListener {
@@ -57,7 +54,6 @@ public class ListarFragment extends Fragment implements EquipoAdapter.OnItemClic
                 Toast.makeText(getContext(), "Error al cargar equipos: " + (response != null ? response.getMessage() : "Unknown error"), Toast.LENGTH_LONG).show();
             }
         });
-        // Configuración del botón para volver atrás
         ImageView btnVolverAtras = view.findViewById(R.id.btnVolverAtras);
         btnVolverAtras.setOnClickListener(v -> {
             if (getFragmentManager() != null) {
@@ -69,10 +65,10 @@ public class ListarFragment extends Fragment implements EquipoAdapter.OnItemClic
 
     @Override
     public void onEditClick(int equipoId) {
-        Log.d("ListarFragment", "Edit clicked for ID: " + equipoId); // Añade esta línea para debugging
+        Log.d("ListarFragment", "Edit clicked for ID: " + equipoId);
         ModificarFragment modificarFragment = new ModificarFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("equipoId", equipoId);  // Envía el ID del equipo al ModificarFragment
+        bundle.putInt("equipoId", equipoId);
         modificarFragment.setArguments(bundle);
         if (isAdded()) {
             getActivity().getSupportFragmentManager().beginTransaction()
@@ -96,16 +92,13 @@ public class ListarFragment extends Fragment implements EquipoAdapter.OnItemClic
 
     @Override
     public void onDeleteClick(int equipoId) {
-        // Crear un AlertDialog para confirmar la eliminación
         new AlertDialog.Builder(getContext())
                 .setTitle("Eliminar Equipo")
                 .setMessage("¿Estás seguro de eliminar este equipo?")
                 .setPositiveButton("Sí", (dialog, which) -> {
-                    // Usuario confirma la eliminación
                     equipoViewModel.deleteEquipo(equipoId).observe(getViewLifecycleOwner(), response -> {
                         if (response != null && response.getRpta() == 1) {
                             Toast.makeText(getContext(), "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
-                            // Actualizar la lista de equipos
                             equipoViewModel.listAllEquipos().observe(getViewLifecycleOwner(), equipoResponse -> {
                                 if (equipoResponse != null && equipoResponse.getRpta() == 1) {
                                     equipoAdapter.updateData(equipoResponse.getBody());
@@ -117,7 +110,6 @@ public class ListarFragment extends Fragment implements EquipoAdapter.OnItemClic
                     });
                 })
                 .setNegativeButton("No", (dialog, which) -> {
-                    // Usuario cancela la operación
                     dialog.dismiss();
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)

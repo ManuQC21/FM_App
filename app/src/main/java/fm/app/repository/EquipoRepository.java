@@ -5,8 +5,12 @@ import androidx.lifecycle.MutableLiveData;
 import fm.app.api.ConfigApi;
 import fm.app.api.EquipoApi;
 import fm.app.entity.GenericResponse;
+import fm.app.entity.Global;
 import fm.app.entity.service.Equipo;
 import java.util.List;
+
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -102,27 +106,6 @@ public class EquipoRepository {
         });
         return liveData;
     }
-
-    // Buscar un equipo por código patrimonial
-    public LiveData<GenericResponse<Equipo>> findEquipoByCodigoPatrimonial(String codigoPatrimonial) {
-        MutableLiveData<GenericResponse<Equipo>> liveData = new MutableLiveData<>();
-        equipoApi.findEquipoByCodigoPatrimonial(codigoPatrimonial).enqueue(new Callback<GenericResponse<Equipo>>() {
-            @Override
-            public void onResponse(Call<GenericResponse<Equipo>> call, Response<GenericResponse<Equipo>> response) {
-                if (response.isSuccessful()) {
-                    liveData.setValue(response.body());
-                } else {
-                    liveData.setValue(new GenericResponse<>(null, -1, "Error al buscar equipo", null));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GenericResponse<Equipo>> call, Throwable t) {
-                liveData.setValue(new GenericResponse<>(null, -1, "Fallo en la conexión: " + t.getMessage(), null));
-            }
-        });
-        return liveData;
-    }
     // Obtener un equipo por su ID
     public LiveData<GenericResponse<Equipo>> getEquipoById(Integer id) {
         MutableLiveData<GenericResponse<Equipo>> liveData = new MutableLiveData<>();
@@ -144,5 +127,107 @@ public class EquipoRepository {
         return liveData;
     }
 
+    // Método para filtrar equipos por nombre
+    public LiveData<GenericResponse<List<Equipo>>> filtroPorNombre(String nombreEquipo) {
+        MutableLiveData<GenericResponse<List<Equipo>>> liveData = new MutableLiveData<>();
+        equipoApi.filtroPorNombre(nombreEquipo).enqueue(new Callback<GenericResponse<List<Equipo>>>() {
+            @Override
+            public void onResponse(Call<GenericResponse<List<Equipo>>> call, Response<GenericResponse<List<Equipo>>> response) {
+                if (response.isSuccessful()) {
+                    liveData.setValue(response.body());
+                } else {
+                    liveData.setValue(new GenericResponse<>(null, -1, "Error al filtrar equipos por nombre", null));
+                }
+            }
 
+            @Override
+            public void onFailure(Call<GenericResponse<List<Equipo>>> call, Throwable t) {
+                liveData.setValue(new GenericResponse<>(null, -1, "Fallo en la conexión: " + t.getMessage(), null));
+            }
+        });
+        return liveData;
+    }
+
+    // Método para filtrar equipos por código patrimonial
+    public LiveData<GenericResponse<List<Equipo>>> filtroCodigoPatrimonial(String codigoPatrimonial) {
+        MutableLiveData<GenericResponse<List<Equipo>>> liveData = new MutableLiveData<>();
+        equipoApi.filtroCodigoPatrimonial(codigoPatrimonial).enqueue(new Callback<GenericResponse<List<Equipo>>>() {
+            @Override
+            public void onResponse(Call<GenericResponse<List<Equipo>>> call, Response<GenericResponse<List<Equipo>>> response) {
+                if (response.isSuccessful()) {
+                    liveData.setValue(response.body());
+                } else {
+                    liveData.setValue(new GenericResponse<>(null, -1, "Error al filtrar equipos por código patrimonial", null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericResponse<List<Equipo>>> call, Throwable t) {
+                liveData.setValue(new GenericResponse<>(null, -1, "Fallo en la conexión: " + t.getMessage(), null));
+            }
+        });
+        return liveData;
+    }
+
+    // Método para filtrar equipos por fecha de compra
+    public LiveData<GenericResponse<List<Equipo>>> filtroFechaCompraBetween(String fechaInicio, String fechaFin) {
+        MutableLiveData<GenericResponse<List<Equipo>>> liveData = new MutableLiveData<>();
+        equipoApi.filtroFechaCompraBetween(fechaInicio, fechaFin).enqueue(new Callback<GenericResponse<List<Equipo>>>() {
+            @Override
+            public void onResponse(Call<GenericResponse<List<Equipo>>> call, Response<GenericResponse<List<Equipo>>> response) {
+                if (response.isSuccessful()) {
+                    liveData.setValue(response.body());
+                } else {
+                    liveData.setValue(new GenericResponse<>(null, -1, "Error al filtrar equipos por fecha de compra", null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericResponse<List<Equipo>>> call, Throwable t) {
+                liveData.setValue(new GenericResponse<>(null, -1, "Fallo en la conexión: " + t.getMessage(), null));
+            }
+        });
+        return liveData;
+    }
+
+    public LiveData<GenericResponse<Equipo>> scanAndCopyBarcodeData(MultipartBody.Part file) {
+        MutableLiveData<GenericResponse<Equipo>> liveData = new MutableLiveData<>();
+        equipoApi.escanearCodigoBarra(file).enqueue(new Callback<GenericResponse<Equipo>>() {
+            @Override
+            public void onResponse(Call<GenericResponse<Equipo>> call, Response<GenericResponse<Equipo>> response) {
+                if (response.isSuccessful()) {
+                    liveData.setValue(response.body());
+                } else {
+                    liveData.setValue(new GenericResponse<>(Global.TIPO_ERROR, Global.RPTA_ERROR, "Failed to scan barcode", null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenericResponse<Equipo>> call, Throwable t) {
+                liveData.setValue(new GenericResponse<>(Global.TIPO_ERROR, Global.RPTA_ERROR, t.getMessage(), null));
+            }
+        });
+        return liveData;
+    }
+
+
+    public LiveData<ResponseBody> downloadExcelReport() {
+        MutableLiveData<ResponseBody> liveData = new MutableLiveData<>();
+        equipoApi.downloadExcelReport().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    liveData.setValue(response.body());
+                } else {
+                    liveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                liveData.setValue(null);
+            }
+        });
+        return liveData;
+    }
 }

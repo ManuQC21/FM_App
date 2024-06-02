@@ -11,19 +11,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.google.android.material.textfield.TextInputEditText;
-
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import fm.app.Activity.InicioActivity;
 import fm.app.R;
 import fm.app.entity.service.Empleado;
@@ -59,7 +56,7 @@ public class ModificarFragment extends Fragment {
         equipoViewModel = new ViewModelProvider(this).get(EquipoViewModel.class);
         empleadoViewModel = new ViewModelProvider(this).get(EmpleadoViewModel.class);
         ubicacionViewModel = new ViewModelProvider(this).get(UbicacionViewModel.class);
-
+        cargarDatosEquipo();
         txtTipoEquipo = view.findViewById(R.id.txtTipoEquipoModificar);
         txtDescripcion = view.findViewById(R.id.txtDescripcionModificar);
         txtMarca = view.findViewById(R.id.txtMarcaModificar);
@@ -72,21 +69,48 @@ public class ModificarFragment extends Fragment {
         dropdownResponsable = view.findViewById(R.id.dropdownResponsableModificar);
         dropdownUbicacion = view.findViewById(R.id.dropdownUbicacionModificar);
         btnModificarEquipo = view.findViewById(R.id.btnModificarEquipo);
-
-        Toolbar toolbar = view.findViewById(R.id.toolbarModificar);
         ImageView btnVolverAtras = view.findViewById(R.id.btnVolverAtrasModificar);
         btnVolverAtras.setOnClickListener(v -> getParentFragmentManager().popBackStack());
-
         edtFechaCompra.setOnClickListener(v -> mostrarDatePickerDialog());
         btnModificarEquipo.setOnClickListener(v -> modificarEquipo());
-
         cargarEstados();
         cargarResponsables();
         cargarUbicaciones();
-
         return view;
     }
-
+    private void cargarDatosEquipo() {
+        if (equipoId != -1) {
+            equipoViewModel.getEquipoById(equipoId).observe(getViewLifecycleOwner(), response -> {
+                if (response != null && response.getRpta() == 1 && response.getBody() != null) {
+                    Equipo equipo = response.getBody();
+                    txtTipoEquipo.setText(equipo.getTipoEquipo());
+                    txtDescripcion.setText(equipo.getDescripcion());
+                    txtMarca.setText(equipo.getMarca());
+                    txtModelo.setText(equipo.getModelo());
+                    txtNombreEquipo.setText(equipo.getNombreEquipo());
+                    txtNumeroOrden.setText(equipo.getNumeroOrden());
+                    txtNumeroSerie.setText(equipo.getSerie());
+                    if (equipo.getFechaCompra() != null && !equipo.getFechaCompra().isEmpty()) {
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+                            Date fecha = sdf.parse(equipo.getFechaCompra());
+                            edtFechaCompra.setText(sdf.format(fecha));
+                        } catch (ParseException e) {
+                            Toast.makeText(getContext(), "Error al parsear la fecha", Toast.LENGTH_SHORT).show();
+                        }
+                    }                    dropdownEstado.setText(equipo.getEstado(), false);
+                    if (equipo.getResponsable() != null) {
+                        dropdownResponsable.setText(equipo.getResponsable().getNombre(), false);
+                    }
+                    if (equipo.getUbicacion() != null) {
+                        dropdownUbicacion.setText(equipo.getUbicacion().getAmbiente(), false);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Error al cargar datos del equipo", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
     private void mostrarDatePickerDialog() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
             calendar.set(Calendar.YEAR, year);
@@ -110,10 +134,8 @@ public class ModificarFragment extends Fragment {
         equipo.setNombreEquipo(txtNombreEquipo.getText().toString());
         equipo.setNumeroOrden(txtNumeroOrden.getText().toString());
         equipo.setSerie(txtNumeroSerie.getText().toString());
-
         String nombreResponsable = dropdownResponsable.getText().toString();
         String ambienteUbicacion = dropdownUbicacion.getText().toString();
-
         empleadoViewModel.listarEmpleados().observe(getViewLifecycleOwner(), empleadoResponse -> {
             if (empleadoResponse != null && empleadoResponse.getRpta() == 1) {
                 for (Empleado empleado : empleadoResponse.getBody()) {
@@ -137,7 +159,6 @@ public class ModificarFragment extends Fragment {
                         if (updateResponse != null && updateResponse.getRpta() == 1) {
                             Toast.makeText(getContext(), "Equipo modificado con éxito", Toast.LENGTH_SHORT).show();
                             limpiarCampos();
-                            // Código para redirigir al usuario a InicioActivity y cerrar la sesión actual
                             Intent intent = new Intent(getContext(), InicioActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -174,7 +195,6 @@ public class ModificarFragment extends Fragment {
         estados.add("Buen estado");
         estados.add("Requiere mantenimiento");
         estados.add("En reparación");
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, estados);
         dropdownEstado.setAdapter(adapter);
     }

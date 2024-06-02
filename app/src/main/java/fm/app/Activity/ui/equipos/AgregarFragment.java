@@ -9,24 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.google.android.material.textfield.TextInputEditText;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
 import fm.app.Activity.InicioActivity;
 import fm.app.R;
 import fm.app.databinding.FragmentAgregarBinding;
@@ -59,9 +51,7 @@ public class AgregarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAgregarBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
         equipoViewModel = new ViewModelProvider(this).get(EquipoViewModel.class);
-
         txtTipoEquipo = view.findViewById(R.id.txtTipoEquipo);
         txtCodigoPatrimonial = view.findViewById(R.id.txtCodigoPatrimonial);
         txtDescripcion = view.findViewById(R.id.txtDescripcion);
@@ -75,16 +65,10 @@ public class AgregarFragment extends Fragment {
         dropdownResponsable = view.findViewById(R.id.dropdownResponsable);
         dropdownUbicacion = view.findViewById(R.id.dropdownUbicacion);
         btnAgregarEquipo = view.findViewById(R.id.btnAgregarEquipo);
-
-        // Configurar la Toolbar
-        Toolbar toolbar = view.findViewById(R.id.toolbarAgregar);
         ImageView btnVolverAtras = view.findViewById(R.id.btnVolverAtras);
         btnVolverAtras.setOnClickListener(v -> getParentFragmentManager().popBackStack());
-
         edtFechaCompra.setOnClickListener(v -> mostrarDatePickerDialog());
-
         btnAgregarEquipo.setOnClickListener(v -> agregarEquipo());
-
         cargarResponsables();
         cargarUbicaciones();
         cargarEstados();
@@ -115,7 +99,6 @@ public class AgregarFragment extends Fragment {
         equipo.setNombreEquipo(txtNombreDeEquipo.getText().toString());
         equipo.setNumeroOrden(txtNumeroDeOrden.getText().toString());
         equipo.setSerie(txtNumeroDeSerie.getText().toString());
-
         String nombreResponsable = dropdownResponsable.getText().toString();
         String ambienteUbicacion = dropdownUbicacion.getText().toString();
 
@@ -143,7 +126,6 @@ public class AgregarFragment extends Fragment {
                     if (equipoResponse.getRpta() == 1) {
                         Toast.makeText(getContext(), "Equipo agregado con éxito", Toast.LENGTH_SHORT).show();
                         limpiarCampos();
-                        // Redirigir a InicioActivity
                         Intent intent = new Intent(getContext(), InicioActivity.class);
                         startActivity(intent);
                     } else {
@@ -202,7 +184,6 @@ public class AgregarFragment extends Fragment {
         estados.add("Buen estado");
         estados.add("Requiere mantenimiento");
         estados.add("En reparación");
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, estados);
         dropdownEstado.setAdapter(adapter);
     }

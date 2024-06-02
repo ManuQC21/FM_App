@@ -13,8 +13,4 @@ public interface UsuarioApi {
     @FormUrlEncoded
     @POST(base + "/login")
     Call<GenericResponse<Usuario>> login(@Field("correo") String correo, @Field("clave") String clave);
-
-    // Método para registrar un nuevo usuario
-    @POST(base + "/registro")
-    Call<GenericResponse<Usuario>> save(@Body Usuario usuario);
 }

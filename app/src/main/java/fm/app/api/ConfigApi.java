@@ -19,8 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ConfigApi {
 
     // Base URL de tu servidor backend
-    public static final String baseUrlE = "http://10.0.2.2:8080";
-    public static final String ipMe = "";
+    public static final String baseUrlEe = "http://10.0.2.2:8080";
+    public static final String baseUrlE = "http://192.168.0.14:8080";
     public static final String ipInstituto = "http://192.168.1.122:8080";
     private static Retrofit retrofit;
     private static String token = "";
@@ -28,7 +28,6 @@ public class ConfigApi {
     // Declaración de las interfaces de las API
     private static UsuarioApi usuarioApi;
     private static FotoApi fotoApi;
-    private static InventoryItemsApi inventoryItemsApi;
     private static EquipoApi equipoApi;
 
     private static EmpleadoApi empleadoApi;
@@ -97,15 +96,6 @@ public class ConfigApi {
         }
         return fotoApi;
     }
-
-    // Método para obtener la instancia de InventoryItemsApi
-    public static InventoryItemsApi getInventoryItemsApi() {
-        if (inventoryItemsApi == null) {
-            inventoryItemsApi = retrofit.create(InventoryItemsApi.class);
-        }
-        return inventoryItemsApi;
-    }
-
     // Método para obtener la instancia de EquipoApi
     public static EquipoApi getEquipoApi() {
         if (equipoApi == null) {

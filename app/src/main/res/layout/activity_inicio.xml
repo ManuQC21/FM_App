@@ -70,41 +70,6 @@
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/contenedorEliminarEquipo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
-                    android:padding="7dp"
-                    android:background="@drawable/rectangle_background"
-                    android:gravity="center_vertical">
-                    <ImageView
-                        android:id="@+id/iconoEliminarEquipo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/eliminar"
-                        android:contentDescription="@string/eliminar_equipo"
-                        android:layout_marginEnd="10dp" />
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/tituloEliminarEquipo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/eliminar_equipo"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/subtituloEliminarEquipo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/descripcion_remover_equipo_del_inventario"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
                     android:id="@+id/contenedorListarEquipos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +105,7 @@
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/contenedorBuscarEquipo"
+                    android:id="@+id/contenedorListarNombreEquipo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -148,34 +113,35 @@
                     android:padding="7dp"
                     android:background="@drawable/rectangle_background"
                     android:gravity="center_vertical">
+
                     <ImageView
-                        android:id="@+id/iconoBuscarEquipo"
+                        android:id="@+id/iconoListarEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/buscar"
-                        android:contentDescription="@string/buscar_equipo_por_codigo"
-                        android:layout_marginEnd="10dp" />
+                        android:layout_marginEnd="10dp"
+                        android:contentDescription="@string/listar_nombre_equipo"
+                        android:src="@drawable/buscar" />
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
-                            android:id="@+id/tituloBuscarEquipo"
+                            android:id="@+id/tituloListarNombreEquipo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/buscar_equipo_por_codigo"
+                            android:text="@string/listar_nombre_de_equipo"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                         <TextView
-                            android:id="@+id/subtituloBuscarEquipo"
+                            android:id="@+id/subtituloListarNombreEquipo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/descripcion_encuentra_equipos_mediante_su_codigo_patrimonial"
+                            android:text="@string/descripcion_listar_nombre_del_equipo"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/contenedorAgregarArticulo"
+                    android:id="@+id/contenedorListarCodigoPatrimonial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -184,33 +150,33 @@
                     android:background="@drawable/rectangle_background"
                     android:gravity="center_vertical">
                     <ImageView
-                        android:id="@+id/iconoAgregarArticulo"
+                        android:id="@+id/iconoListarCodigoPatrimonial"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/agregar"
-                        android:contentDescription="@string/agregar_articulo_historico"
+                        android:src="@drawable/codigo"
+                        android:contentDescription="@string/listar_codigo_patrimonial"
                         android:layout_marginEnd="10dp" />
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
-                            android:id="@+id/tituloAgregarArticulo"
+                            android:id="@+id/tituloListarCodigoPatrimonial"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/agregar_articulo_historico"
+                            android:text="@string/titulo_listar_codigo_patrimonial"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                         <TextView
-                            android:id="@+id/subtituloAgregarArticulo"
+                            android:id="@+id/subtituloListarCodigoPatrimonial"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/descripcion_incorporar_un_nuevo_articulo_al_inventario_historico"
+                            android:text="@string/descripcion_listar_codigo_patrimonial"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/contenedorListarArticulos"
+                    android:id="@+id/contenedorListarPorFechas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -219,28 +185,28 @@
                     android:background="@drawable/rectangle_background"
                     android:gravity="center_vertical">
                     <ImageView
-                        android:id="@+id/iconoListarArticulos"
+                        android:id="@+id/iconoListarPorFechas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/listar"
-                        android:contentDescription="@string/listar_articulos_historicos"
+                        android:src="@drawable/fecha"
+                        android:contentDescription="@string/listar_por_fechas"
                         android:layout_marginEnd="10dp" />
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
-                            android:id="@+id/tituloListarArticulos"
+                            android:id="@+id/tituloListarPorFecha"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/listar_articulos_historicos"
+                            android:text="@string/titulo_listar_por_fechas"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                         <TextView
-                            android:id="@+id/subtituloListarArticulos"
+                            android:id="@+id/subtituloListarPorFecha"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/descrpcion_consulta_la_lista_completa_de_articulos"
+                            android:text="@string/descripcion_listar_por_fechas"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -279,8 +245,6 @@
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
-
-
                 <!-- Botón de Cerrar Sesión -->
                 <ImageView
                     android:id="@+id/btnCerrarSesion"

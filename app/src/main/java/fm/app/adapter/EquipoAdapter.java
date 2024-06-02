@@ -39,11 +39,12 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoView
     @Override
     public void onBindViewHolder(@NonNull EquipoViewHolder holder, int position) {
         Equipo equipo = equipos.get(position);
-        holder.nombreEquipo.setText(equipo.getNombreEquipo());
-        holder.tipoEquipo.setText(equipo.getTipoEquipo());
-        holder.estadoEquipo.setText(equipo.getEstado());
+        holder.nombreEquipo.setText(equipo.getNombreEquipo() != null ? equipo.getNombreEquipo() : "-");
+        holder.tipoEquipo.setText(equipo.getTipoEquipo() != null ? equipo.getTipoEquipo() : "-");
+        holder.codigoPatrimonial.setText(equipo.getCodigoPatrimonial() != null ? equipo.getCodigoPatrimonial() : "-");
+        holder.fechaCompra.setText(equipo.getFechaCompra() != null ? equipo.getFechaCompra() : "-");
+        holder.estadoEquipo.setText(equipo.getEstado() != null ? equipo.getEstado() : "-");
 
-        // Asegúrate de que el listener no sea nulo y esté correctamente configurado
         if (listener != null) {
             holder.editButton.setOnClickListener(v -> listener.onEditClick(equipo.getId()));
             holder.viewButton.setOnClickListener(v -> listener.onViewClick(equipo.getId()));
@@ -57,7 +58,7 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoView
     }
 
     public static class EquipoViewHolder extends RecyclerView.ViewHolder {
-        TextView nombreEquipo, tipoEquipo, estadoEquipo;
+        TextView nombreEquipo, tipoEquipo, estadoEquipo, codigoPatrimonial, fechaCompra;
         ImageView editButton, viewButton, deleteButton;
 
         EquipoViewHolder(View itemView) {
@@ -65,6 +66,8 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoView
             nombreEquipo = itemView.findViewById(R.id.txtNombreEquipo);
             tipoEquipo = itemView.findViewById(R.id.txtTipoEquipo);
             estadoEquipo = itemView.findViewById(R.id.txtEstado);
+            codigoPatrimonial = itemView.findViewById(R.id.txtCodigoPatrimonial);
+            fechaCompra = itemView.findViewById(R.id.txtFechaCompra);
             editButton = itemView.findViewById(R.id.ic_edit);
             viewButton = itemView.findViewById(R.id.ic_view);
             deleteButton = itemView.findViewById(R.id.ic_delete);

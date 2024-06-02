@@ -22,7 +22,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.sql.Date;
 import java.sql.Time;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import fm.app.R;
 import fm.app.entity.service.Usuario;
 import fm.app.utils.DateSerializer;

@@ -33,29 +33,7 @@ public class UsuarioRepository {
                 if (response.isSuccessful()) {
                     liveData.setValue(response.body());
                 } else {
-                    // Manejo de errores cuando la respuesta no es exitosa
                     liveData.setValue(new GenericResponse<>("error", response.code(), "Error en el login: " + response.message(), null));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GenericResponse<Usuario>> call, Throwable t) {
-                // Mejora el manejo de errores para incluir más detalles
-                liveData.setValue(new GenericResponse<>("error", 500, "Fallo de red: " + t.getMessage(), null));
-            }
-        });
-        return liveData;
-    }
-
-    public LiveData<GenericResponse<Usuario>> save(Usuario u){
-        MutableLiveData<GenericResponse<Usuario>> liveData = new MutableLiveData<>();
-        api.save(u).enqueue(new Callback<GenericResponse<Usuario>>() {
-            @Override
-            public void onResponse(Call<GenericResponse<Usuario>> call, Response<GenericResponse<Usuario>> response) {
-                if (response.isSuccessful()) {
-                    liveData.setValue(response.body());
-                } else {
-                    liveData.setValue(new GenericResponse<>("error", response.code(), "Error al guardar: " + response.message(), null));
                 }
             }
 

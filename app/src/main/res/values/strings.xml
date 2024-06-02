@@ -37,28 +37,28 @@
 
     <!-- Equipment Management -->
     <string name="agregar_equipo">Agregar Equipo</string>
-    <string name="descripcion_añadir_nuevo_equipo_al_inventario">Añadir un nuevo Equipo al Inventario de Equipos</string>
+    <string name="descripcion_añadir_nuevo_equipo_al_inventario">Añadir un nuevo equipo al inventario de equipos</string>
 
     <string name="eliminar_equipo">Eliminar Equipo</string>
-    <string name="descripcion_remover_equipo_del_inventario">Remover un nuevo Equipo del Inventario de Equipos</string>
+    <string name="descripcion_remover_equipo_del_inventario">Remover un nuevo equipo del inventario de iquipos</string>
 
     <string name="listar_equipos">Listar Equipos</string>
-    <string name="Descripcion_ver_lista_completa_de_equipos">Ver Lista completa del Inventario de Equipo</string>
+    <string name="Descripcion_ver_lista_completa_de_equipos">Ver Lista completa de todos los equipos del iventario</string>
 
     <string name="modificar_equipo">Modificar Equipo</string>
-    <string name="descripcion_actualizar_datos_de_un_equipo_existente">Modificar la Informacion de un Equipo del Inventario de Equipo</string>
+    <string name="descripcion_actualizar_datos_de_un_equipo_existente">Modificar la informacion de un equipo del inventario de equipo</string>
 
     <string name="buscar_equipo_por_codigo">Buscar equipo por código</string>
-    <string name="descripcion_encuentra_equipos_mediante_su_codigo_patrimonial">Buscar un Equipo del Inventario de Equipo Por Codigo Patrimonial</string>
+    <string name="descripcion_encuentra_equipos_mediante_su_codigo_patrimonial">Buscar un equipo del inventario de equipo Por codigo patrimonial</string>
 
     <string name="agregar_articulo_historico">Agregar productos al histórico</string>
-    <string name="descripcion_incorporar_un_nuevo_articulo_al_inventario_historico">Agregar un articulo al Inventario Historico Permanente</string>
+    <string name="descripcion_incorporar_un_nuevo_articulo_al_inventario_historico">Agregar un articulo al inventario historico permanente</string>
 
     <string name="listar_articulos_historicos">Listar todos los artículos de inventario histórico</string>
-    <string name="descrpcion_consulta_la_lista_completa_de_articulos">Listar todos los Equipos del Inventario Historico Permanente</string>
+    <string name="descrpcion_consulta_la_lista_completa_de_articulos">Listar todos los equipos del inventario Historico Permanente</string>
 
     <string name="escanear_codigo_barras">Escanear Código de Barras</string>
-    <string name="descripcion_utiliza_la_camara_para_escanear_codigos">Utiliza la Cámara para Escanear Códigos de Barras para Agregar un nuevo Equipo</string>
+    <string name="descripcion_utiliza_la_camara_para_escanear_codigos">Utiliza la cámara para Escanear Códigos de Barras para Agregar un nuevo Equipo</string>
 
 
     <string name="volver">Volver</string>
@@ -113,4 +113,22 @@
     <!-- Detalles de la ubicación -->
     <string name="ambiente_value">Oficina de Administración</string>
     <string name="ubicacion_fisica_value">Edificio Central, Piso 2</string>
+    <string name="listar_nombre_equipo">Listar Por nombre de Equipo</string>
+    <string name="listar_nombre_de_equipo">Listar Por Nombre de Equipo</string>
+    <string name="descripcion_listar_nombre_del_equipo">Listar por el nombre completo del equipo a buscar</string>
+    <string name="listar_codigo_patrimonial">listar por codigo patrimonial</string>
+    <string name="titulo_listar_codigo_patrimonial">Listar Por Codigo Patrimonial</string>
+    <string name="descripcion_listar_codigo_patrimonial">Listar los equipos en base al codigo patrimonial</string>
+    <string name="listar_por_fechas">listar por fechas</string>
+    <string name="titulo_listar_por_fechas">Listar Equipos Por Fechas</string>
+    <string name="descripcion_listar_por_fechas">Listar los equipos entre 2 fechas respectivas de inicio y fin</string>
+    <string name="buscar_por_nombre">Buscar Equipo Por Nombre</string>
+    <string name="buscar_por_codigo_patrimonial">Buscar Por Codigo Patrimonial</string>
+    <string name="fecha_inicio">Fecha Inicio</string>
+    <string name="fecha_fin">Fecha Fin</string>
+    <string name="seleccionar_fecha">seleccionar fecha\n</string>
+    <string name="buscar_por_fechas">Buscar Por Fechas</string>
+    <string name="filtrar">Filtrar</string>
+    <string name="analizar">Analizar Codigo de Barras</string>
+
 </resources>

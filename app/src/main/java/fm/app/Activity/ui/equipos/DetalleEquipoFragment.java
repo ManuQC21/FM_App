@@ -1,7 +1,6 @@
 package fm.app.Activity.ui.equipos;
 
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.lifecycle.ViewModelProvider;
 import fm.app.R;
 import fm.app.viewModel.EquipoViewModel;
@@ -32,16 +30,12 @@ public class DetalleEquipoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detalle_equipo, container, false);
-
-        // Configuración del botón para volver atrás
         ImageView btnVolverAtras = view.findViewById(R.id.btnVolverAtras);
         btnVolverAtras.setOnClickListener(v -> {
             if (getFragmentManager() != null) {
                 getFragmentManager().popBackStack();
             }
         });
-
-        // Referencia a todos los TextViews
         txtTipoEquipo = view.findViewById(R.id.txtTipoEquipo);
         txtCodigoBarra = view.findViewById(R.id.txtCodigoBarra);
         txtNombreEquipo = view.findViewById(R.id.txtNombreEquipo);

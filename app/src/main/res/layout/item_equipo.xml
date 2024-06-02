@@ -59,6 +59,60 @@
             android:layout_marginStart="3dp"/>
     </LinearLayout>
 
+    <!-- Fila para el Código Patrimonial -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/codigo_patrimonial"
+            android:textStyle="bold"
+            android:textColor="@color/azul_general"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/txtCodigoPatrimonial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C1234567"
+            android:textSize="16sp"
+            android:textColor="@color/negro"
+            android:layout_marginStart="3dp"/>
+    </LinearLayout>
+
+    <!-- Fila para la Fecha de Compra -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/fecha_compra"
+            android:textStyle="bold"
+            android:textColor="@color/azul_general"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/txtFechaCompra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01-01-2021"
+            android:textSize="16sp"
+            android:textColor="@color/negro"
+            android:layout_marginStart="3dp"/>
+    </LinearLayout>
+
     <!-- Fila para el Estado -->
     <LinearLayout
         android:layout_width="match_parent"
