@@ -2,10 +2,14 @@ package fm.app.Activity.ui.Filtros;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Size;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -27,6 +31,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import fm.app.R;
@@ -81,9 +87,11 @@ public class EscanearCodigoBarrasFragment extends Fragment {
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build();
 
+        int rotation = binding.previewView.getDisplay().getRotation();
         imageCapture = new ImageCapture.Builder()
                 .setTargetResolution(new Size(1920, 1080))
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                .setTargetRotation(binding.previewView.getDisplay().getRotation())
                 .build();
 
         preview.setSurfaceProvider(binding.previewView.getSurfaceProvider());
@@ -97,6 +105,9 @@ public class EscanearCodigoBarrasFragment extends Fragment {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                 Uri savedUri = Uri.fromFile(photoFile);
+                if (isVerticalOrientation()) {
+                    rotateImage(photoFile, -90);
+                }
                 sendImageToServer(savedUri, photoFile);
             }
 
@@ -109,6 +120,29 @@ public class EscanearCodigoBarrasFragment extends Fragment {
             }
         });
     }
+
+    private boolean isVerticalOrientation() {
+        int rotation = binding.previewView.getDisplay().getRotation();
+        return rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180;
+    }
+
+    private void rotateImage(File imageFile, int degrees) {
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+            Matrix matrix = new Matrix();
+            matrix.postRotate(degrees);
+            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            FileOutputStream out = new FileOutputStream(imageFile);
+            rotatedBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+            bitmap.recycle();
+            rotatedBitmap.recycle();
+        } catch (IOException e) {
+            Toast.makeText(getContext(), "Error rotating image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void sendImageToServer(Uri fileUri, File photoFile) {
         RequestBody requestFile = RequestBody.create(MediaType.get("image/png"), photoFile);

@@ -20,7 +20,7 @@ public class ConfigApi {
 
     // Base URL de tu servidor backend
     public static final String baseUrlEe = "http://10.0.2.2:8080";
-    public static final String baseUrlE = "http://192.168.0.14:8080";
+    public static final String baseUrlE = "http://192.168.43.141:8080";
     public static final String ipInstituto = "http://192.168.1.122:8080";
     private static Retrofit retrofit;
     private static String token = "";
