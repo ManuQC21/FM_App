@@ -16,7 +16,6 @@ public class Equipo {
     private String serie;
     private Empleado responsable;
     private Ubicacion ubicacion;
-    private Foto foto;
 
     public Equipo() {
     }

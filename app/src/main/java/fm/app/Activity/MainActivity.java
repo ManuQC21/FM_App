@@ -14,18 +14,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import java.sql.Date;
-import java.sql.Time;
+
 import fm.app.R;
 import fm.app.entity.service.Usuario;
-import fm.app.utils.DateSerializer;
-import fm.app.utils.TimeSerializer;
 import fm.app.viewModel.UsuarioViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,13 +54,10 @@ public class MainActivity extends AppCompatActivity {
             if (validar()) {
                 viewModel.login(edtMail.getText().toString(), edtPassword.getText().toString()).observe(this, usuarioGenericResponse -> {
                     if (usuarioGenericResponse.getRpta() == 1) {
-                        toastCorrecto(usuarioGenericResponse.getMessage());
                         Usuario u = usuarioGenericResponse.getBody();
                         saveUsuarioPreferences(u);
                         clearFields();
-                        Intent intent = new Intent(this, InicioActivity.class);
-                        intent.putExtra("UsuarioJson", new Gson().toJson(u, new TypeToken<Usuario>() {}.getType()));
-                        startActivity(intent);
+                        startActivityWithTransition(u);
                     } else {
                         toastIncorrecto(usuarioGenericResponse.getMessage());
                     }
@@ -80,11 +74,8 @@ public class MainActivity extends AppCompatActivity {
     private void saveUsuarioPreferences(Usuario u) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
-        Gson g = new GsonBuilder()
-                .registerTypeAdapter(Date.class, new DateSerializer())
-                .registerTypeAdapter(Time.class, new TimeSerializer())
-                .create();
-        editor.putString("UsuarioJson", g.toJson(u, new TypeToken<Usuario>() {}.getType()));
+        Gson gson = new Gson();
+        editor.putString("UsuarioJson", gson.toJson(u));
         editor.apply();
     }
 
@@ -94,30 +85,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validar() {
-        boolean valido = true;
-        valido &= validarCampo(edtMail, txtInputUsuario, "Ingrese su usuario y/o correo electrónico");
-        if (valido && !android.util.Patterns.EMAIL_ADDRESS.matcher(edtMail.getText().toString()).matches()) {
-            txtInputUsuario.setError("Correo electrónico no válido");
-            valido = false;
-        }
-        valido &= validarCampo(edtPassword, txtInputPassword, "Ingrese su contraseña");
-        return valido;
+        return validarCampo(edtMail, txtInputUsuario, "Ingrese su usuario y/o correo electrónico") &&
+                validarEmail(edtMail, txtInputUsuario) &&
+                validarCampo(edtPassword, txtInputPassword, "Ingrese su contraseña");
     }
 
     private boolean validarCampo(EditText editText, TextInputLayout textInputLayout, String error) {
-        if (editText.getText().toString().isEmpty()) {
+        if (editText.getText().toString().trim().isEmpty()) {
             textInputLayout.setError(error);
             return false;
-        } else {
-            textInputLayout.setErrorEnabled(false);
-            return true;
         }
+        textInputLayout.setErrorEnabled(false);
+        return true;
+    }
+
+    private boolean validarEmail(EditText editText, TextInputLayout textInputLayout) {
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(editText.getText().toString().trim()).matches()) {
+            textInputLayout.setError("Correo electrónico no válido");
+            return false;
+        }
+        return true;
     }
 
     private void showToast(String message, boolean isError) {
-        int layoutId = isError ? R.layout.custom_toast_error : R.layout.custom_toast_ok;
-        View layout = LayoutInflater.from(this).inflate(layoutId, (ViewGroup) findViewById(isError ? R.id.ll_custom_toast_error : R.id.ll_custom_toast_ok));
-        ((TextView) layout.findViewById(isError ? R.id.txtMensajeToast2 : R.id.txtMensajeToast1)).setText(message);
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(isError ? R.layout.custom_toast_error : R.layout.custom_toast_ok,
+                (ViewGroup) findViewById(isError ? R.id.ll_custom_toast_error : R.id.ll_custom_toast_ok));
+
+        TextView text = layout.findViewById(isError ? R.id.txtMensajeToast2 : R.id.txtMensajeToast1);
+        text.setText(message);
 
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.BOTTOM, 0, 200);
@@ -135,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class GenericTextWatcher implements TextWatcher {
-        private TextInputLayout layout;
+        private final TextInputLayout layout;
 
         GenericTextWatcher(TextInputLayout layout) {
             this.layout = layout;
@@ -147,12 +143,21 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            layout.setErrorEnabled(false);
+            if (s.length() > 0) {
+                layout.setErrorEnabled(false);
+            }
         }
 
         @Override
         public void afterTextChanged(Editable s) {
         }
+    }
+
+    private void startActivityWithTransition(Usuario usuario) {
+        Intent intent = new Intent(this, InicioActivity.class);
+        intent.putExtra("UsuarioJson", new Gson().toJson(usuario));
+        startActivity(intent);
+        overridePendingTransition(R.anim.rigth_in, R.anim.left_out);
     }
 
     @Override
@@ -163,13 +168,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkForActiveSession() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String pref = preferences.getString("UsuarioJson", "");
-        if (!pref.isEmpty() && !isFinishing()) {
+        String usuarioJson = preferences.getString("UsuarioJson", "");
+        if (!usuarioJson.isEmpty()) {
             toastCorrecto("Se detectó una sesión activa, el login será omitido!");
             Intent intent = new Intent(this, InicioActivity.class);
-            intent.putExtra("UsuarioJson", pref);
+            intent.putExtra("UsuarioJson", usuarioJson);
             startActivity(intent);
-            overridePendingTransition(R.anim.left_in, R.anim.left_out);
+            finish();
         }
     }
 }

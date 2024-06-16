@@ -154,7 +154,7 @@ public class EscanearCodigoBarrasFragment extends Fragment {
                 photoFile.delete();
             }
 
-            if (response.getRpta() == Global.RPTA_OK) {
+            if (response.getRpta() == Global.RESPUESTA_OK) {
                 showCustomDialog(response.getBody());
             } else {
                 showAlert("Error", response.getMessage());

@@ -1,55 +1,44 @@
 package fm.app.api;
 
 import java.util.List;
-
-import fm.app.entity.service.Equipo;
 import fm.app.entity.GenericResponse;
+import fm.app.entity.service.Equipo;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
 public interface EquipoApi {
-    // Ruta base para todos los endpoints de la API de Equipo
-    String base = "/equipo";
+    String BASE_PATH = "/equipo";
 
-    // Método para agregar un equipo
-    @POST(base + "/agregar")
+    @POST(BASE_PATH + "/agregar")
     Call<GenericResponse<Equipo>> addEquipo(@Body Equipo equipo);
 
-    // Método para modificar un equipo
-    @PUT(base + "/modificar")
+    @PUT(BASE_PATH + "/modificar")
     Call<GenericResponse<Equipo>> updateEquipo(@Body Equipo equipo);
 
-    // Método para eliminar un equipo
-    @DELETE(base + "/eliminar/{id}")
+    @DELETE(BASE_PATH + "/eliminar/{id}")
     Call<GenericResponse<Void>> deleteEquipo(@Path("id") Integer id);
 
-    // Método para listar todos los equipos
-    @GET(base + "/listar")
+    @GET(BASE_PATH + "/listar")
     Call<GenericResponse<List<Equipo>>> listAllEquipos();
 
-    @GET(base + "/{id}")
+    @GET(BASE_PATH + "/{id}")
     Call<GenericResponse<Equipo>> getEquipoById(@Path("id") Integer id);
 
-    // Filtros
-    @GET(base + "/filtro/nombre")
+    @GET(BASE_PATH + "/filtro/nombre")
     Call<GenericResponse<List<Equipo>>> filtroPorNombre(@Query("nombreEquipo") String nombreEquipo);
 
-    @GET(base + "/filtro/codigoPatrimonial")
+    @GET(BASE_PATH + "/filtro/codigoPatrimonial")
     Call<GenericResponse<List<Equipo>>> filtroCodigoPatrimonial(@Query("codigoPatrimonial") String codigoPatrimonial);
 
-    @GET(base + "/filtro/fechaCompra")
-    Call<GenericResponse<List<Equipo>>> filtroFechaCompraBetween(
-            @Query("fechaInicio") String fechaInicio,
-            @Query("fechaFin") String fechaFin);
-
+    @GET(BASE_PATH + "/filtro/fechaCompra")
+    Call<GenericResponse<List<Equipo>>> filtroFechaCompraBetween(@Query("fechaInicio") String fechaInicio, @Query("fechaFin") String fechaFin);
 
     @Multipart
-    @POST(base + "/escanearCodigoBarra")
-    Call<GenericResponse<Equipo>> escanearCodigoBarra(@Part MultipartBody.Part file);
+    @POST(BASE_PATH + "/escanearCodigoBarra")
+    Call<GenericResponse<Equipo>> scanBarcode(@Part MultipartBody.Part file);
 
-    // Método para descargar un reporte de Excel de los equipos
-    @GET(base + "/descargarReporte")
+    @GET(BASE_PATH + "/descargarReporte")
     Call<ResponseBody> downloadExcelReport();
 }

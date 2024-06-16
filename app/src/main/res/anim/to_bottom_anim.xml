@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:fillAfter="true">
+
+    <!-- Translate animation to move the view to the bottom -->
     <translate
-        android:duration="300"
+        android:duration="500"
         android:fromYDelta="0%"
-        android:toYDelta="100%" />
+        android:toYDelta="100%"
+        android:interpolator="@android:anim/accelerate_interpolator" />
+
+    <!-- Scale animation to shrink the view -->
     <scale
-        android:fromXScale="0.8"
-        android:fromYScale="0.8"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:toXScale="0.8"
+        android:toYScale="0.8"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:toXScale="0.8"
-        android:toYScale="0.8" />
+        android:duration="500"
+        android:interpolator="@android:anim/accelerate_interpolator" />
+
+    <!-- Alpha animation to fade out the view -->
     <alpha
-        android:duration="150"
+        android:duration="500"
         android:fromAlpha="1"
-        android:toAlpha="0" />
+        android:toAlpha="0"
+        android:interpolator="@android:anim/accelerate_interpolator" />
 </set>

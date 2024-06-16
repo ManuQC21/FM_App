@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -38,7 +39,8 @@ import fm.app.Activity.ui.Filtros.FiltroPorNombreFragment;
 import fm.app.BuildConfig;
 import fm.app.R;
 import fm.app.entity.service.Usuario;
-import fm.app.Activity.ui.equipos.*;
+import fm.app.Activity.ui.equipos.AgregarFragment;
+import fm.app.Activity.ui.equipos.ListarFragment;
 import fm.app.viewModel.EquipoViewModel;
 import okhttp3.ResponseBody;
 
@@ -69,14 +71,15 @@ public class InicioActivity extends AppCompatActivity {
     private void initViews() {
         btnLogout = findViewById(R.id.btnCerrarSesion);
         btnLogout.setOnClickListener(view -> onBackPressed());
-        findViewById(R.id.contenedorAgregarEquipo).setOnClickListener(v -> navigateToFragment(new AgregarFragment()));
-        findViewById(R.id.contenedorListarEquipos).setOnClickListener(v -> navigateToFragment(new ListarFragment()));
-        findViewById(R.id.contenedorListarNombreEquipo).setOnClickListener(v -> navigateToFragment(new FiltroPorNombreFragment()));
-        findViewById(R.id.contenedorListarCodigoPatrimonial).setOnClickListener(v -> navigateToFragment(new FiltroPorCodigoPatrimonialFragment()));
-        findViewById(R.id.contenedorListarPorFechas).setOnClickListener(v -> navigateToFragment(new FiltroPorFechasFragment()));
+        findViewById(R.id.contenedorAgregarEquipo).setOnClickListener(v -> navigateToFragment(new AgregarFragment(), R.anim.left_in, R.anim.left_out));
+        findViewById(R.id.contenedorListarEquipos).setOnClickListener(v -> navigateToFragment(new ListarFragment(), R.anim.rigth_in, R.anim.left_out));
+        findViewById(R.id.contenedorListarNombreEquipo).setOnClickListener(v -> navigateToFragment(new FiltroPorNombreFragment(), R.anim.down_in, R.anim.down_out));
+        findViewById(R.id.contenedorListarCodigoPatrimonial).setOnClickListener(v -> navigateToFragment(new FiltroPorCodigoPatrimonialFragment(), R.anim.above_in, R.anim.above_out));
+        findViewById(R.id.contenedorListarPorFechas).setOnClickListener(v -> navigateToFragment(new FiltroPorFechasFragment(), R.anim.from_bottom_anim, R.anim.to_bottom_anim));
         findViewById(R.id.contenedorReporteEquipos).setOnClickListener(v -> showDownloadConfirmationDialog());
-        findViewById(R.id.contenedorEscanearCodigoBarras).setOnClickListener(v -> navigateToFragment(new EscanearCodigoBarrasFragment()));
+        findViewById(R.id.contenedorEscanearCodigoBarras).setOnClickListener(v -> navigateToFragment(new EscanearCodigoBarrasFragment(), R.anim.left_in, R.anim.left_out));
     }
+
     private void showDownloadConfirmationDialog() {
         new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Desea descargar el Reporte General de Equipos")
@@ -89,6 +92,7 @@ public class InicioActivity extends AppCompatActivity {
                     downloadExcelReport();
                 }).show();
     }
+
     private void downloadExcelReport() {
         EquipoViewModel equipoViewModel = new ViewModelProvider(this).get(EquipoViewModel.class);
         equipoViewModel.downloadExcelReport().observe(this, responseBody -> {
@@ -99,9 +103,9 @@ public class InicioActivity extends AppCompatActivity {
             }
         });
     }
+
     private void saveExcelFile(ResponseBody body) {
         try {
-            // Usar el directorio de descargas público
             File downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             File file = new File(downloadsFolder, "Reporte_De_Equipos.xlsx");
 
@@ -122,6 +126,7 @@ public class InicioActivity extends AppCompatActivity {
             Toast.makeText(this, "Error al guardar el archivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
     private void openDownloadedFile(File file) {
         Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -130,10 +135,11 @@ public class InicioActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, "Open with"));
     }
 
-    private void navigateToFragment(Fragment fragment) {
+    private void navigateToFragment(Fragment fragment, int enterAnim, int exitAnim) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment); // Cambio aquí
+        fragmentTransaction.setCustomAnimations(enterAnim, exitAnim, enterAnim, exitAnim);
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -157,6 +163,7 @@ public class InicioActivity extends AppCompatActivity {
         clearUsuarioPreferences();
         showToastLogout();
         startActivity(new Intent(this, MainActivity.class));
+        overridePendingTransition(R.anim.rigth_in, R.anim.left_out);
         finish();
     }
 
