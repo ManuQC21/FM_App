@@ -1,23 +1,23 @@
 package fm.app.Activity.ui.Filtros;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.text.TextWatcher;
-import android.text.Editable;
-import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.google.android.material.textfield.TextInputEditText;
-
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import fm.app.Activity.ui.equipos.DetalleEquipoFragment;
 import fm.app.Activity.ui.equipos.ModificarFragment;
 import fm.app.R;
@@ -31,19 +31,23 @@ public class FiltroPorCodigoPatrimonialFragment extends Fragment {
     private RecyclerView recyclerView;
     private EquipoAdapter equipoAdapter;
     private TextInputEditText edtBuscarCodigoPatrimonial;
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable searchRunnable;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filtro_por_codigo_patrimonial, container, false);
         edtBuscarCodigoPatrimonial = view.findViewById(R.id.edtBuscarCodigoPatrimonial);
         recyclerView = view.findViewById(R.id.recyclerViewFiltroCodigoPatrimonial);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         ImageView btnVolverAtras = view.findViewById(R.id.btnVolverAtras);
         btnVolverAtras.setOnClickListener(v -> getParentFragmentManager().popBackStack());
+
         equipoAdapter = new EquipoAdapter(new ArrayList<>(), new EquipoAdapter.OnItemClickListener() {
             @Override
             public void onEditClick(int equipoId) {
-                Log.d("ListarFragment", "Edit clicked for ID: " + equipoId);
+                Log.d("FiltroPorCodigoPatrimonialFragment", "Edit clicked for ID: " + equipoId);
                 ModificarFragment modificarFragment = new ModificarFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("equipoId", equipoId);
@@ -55,6 +59,7 @@ public class FiltroPorCodigoPatrimonialFragment extends Fragment {
                             .commit();
                 }
             }
+
             @Override
             public void onViewClick(int equipoId) {
                 DetalleEquipoFragment detalleFragment = new DetalleEquipoFragment();
@@ -69,27 +74,35 @@ public class FiltroPorCodigoPatrimonialFragment extends Fragment {
 
             @Override
             public void onDeleteClick(int equipoId) {
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Eliminar Equipo")
-                        .setMessage("¿Estás seguro de eliminar este equipo?")
-                        .setPositiveButton("Sí", (dialog, which) -> {
+                new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Eliminar Equipo")
+                        .setContentText("¿Estás seguro de eliminar este equipo?")
+                        .setConfirmText("Sí")
+                        .setConfirmClickListener(sDialog -> {
                             equipoViewModel.deleteEquipo(equipoId).observe(getViewLifecycleOwner(), response -> {
                                 if (response != null && response.getRpta() == 1) {
-                                    Toast.makeText(getContext(), "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
+                                    sDialog
+                                            .setTitleText("Eliminado")
+                                            .setContentText("Equipo eliminado correctamente")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                                     equipoViewModel.listAllEquipos().observe(getViewLifecycleOwner(), equipoResponse -> {
                                         if (equipoResponse != null && equipoResponse.getRpta() == 1) {
                                             equipoAdapter.updateData(equipoResponse.getBody());
                                         }
                                     });
                                 } else {
-                                    Toast.makeText(getContext(), "Error al eliminar equipo: " + (response != null ? response.getMessage() : "Error desconocido"), Toast.LENGTH_LONG).show();
+                                    sDialog
+                                            .setTitleText("Error")
+                                            .setContentText("Error al eliminar equipo: " + (response != null ? response.getMessage() : "Error desconocido"))
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
+                                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                                 }
                             });
                         })
-                        .setNegativeButton("No", (dialog, which) -> {
-                            dialog.dismiss();
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelButton("No", SweetAlertDialog::dismissWithAnimation)
                         .show();
             }
         });
@@ -101,26 +114,34 @@ public class FiltroPorCodigoPatrimonialFragment extends Fragment {
     private void setupEditText() {
         edtBuscarCodigoPatrimonial.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                equipoViewModel.filtroCodigoPatrimonial(s.toString()).observe(getViewLifecycleOwner(), response -> {
+                if (searchRunnable != null) {
+                    handler.removeCallbacks(searchRunnable);
+                }
+                searchRunnable = () -> equipoViewModel.filtroCodigoPatrimonial(s.toString()).observe(getViewLifecycleOwner(), response -> {
                     if (response != null && response.getBody() != null) {
                         equipoAdapter.updateData(response.getBody());
+                    } else {
+                        equipoAdapter.updateData(new ArrayList<>());
+                        new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Sin resultados")
+                                .setContentText("No se encontraron datos para el código patrimonial ingresado")
+                                .show();
                     }
                 });
+                handler.postDelayed(searchRunnable, 500); // 0.5 segundos
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         equipoViewModel = new ViewModelProvider(this).get(EquipoViewModel.class);
 
@@ -128,6 +149,11 @@ public class FiltroPorCodigoPatrimonialFragment extends Fragment {
         equipoViewModel.listAllEquipos().observe(getViewLifecycleOwner(), response -> {
             if (response != null && response.getBody() != null) {
                 equipoAdapter.updateData(response.getBody());
+            } else {
+                new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Error")
+                        .setContentText("Error al cargar los datos iniciales")
+                        .show();
             }
         });
     }

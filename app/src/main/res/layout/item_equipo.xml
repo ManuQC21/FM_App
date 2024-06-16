@@ -4,14 +4,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@drawable/card_background">
+    android:background="@drawable/card_background"
+    android:clipToPadding="false">
 
     <!-- Fila para el Nombre del Equipo -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
 
         <TextView
             android:layout_width="0dp"
@@ -29,7 +31,7 @@
             android:text="Dell"
             android:textSize="16sp"
             android:textColor="@color/negro"
-            android:layout_marginStart="3dp"/>
+            android:layout_marginStart="8dp"/>
     </LinearLayout>
 
     <!-- Fila para el Tipo de Equipo -->
@@ -38,6 +40,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:paddingBottom="8dp"
         android:layout_marginTop="4dp">
 
         <TextView
@@ -56,7 +59,7 @@
             android:text="Computadora"
             android:textSize="16sp"
             android:textColor="@color/negro"
-            android:layout_marginStart="3dp"/>
+            android:layout_marginStart="8dp"/>
     </LinearLayout>
 
     <!-- Fila para el Código Patrimonial -->
@@ -65,6 +68,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:paddingBottom="8dp"
         android:layout_marginTop="4dp">
 
         <TextView
@@ -83,7 +87,7 @@
             android:text="C1234567"
             android:textSize="16sp"
             android:textColor="@color/negro"
-            android:layout_marginStart="3dp"/>
+            android:layout_marginStart="8dp"/>
     </LinearLayout>
 
     <!-- Fila para la Fecha de Compra -->
@@ -92,6 +96,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:paddingBottom="8dp"
         android:layout_marginTop="4dp">
 
         <TextView
@@ -110,7 +115,7 @@
             android:text="01-01-2021"
             android:textSize="16sp"
             android:textColor="@color/negro"
-            android:layout_marginStart="3dp"/>
+            android:layout_marginStart="8dp"/>
     </LinearLayout>
 
     <!-- Fila para el Estado -->
@@ -119,6 +124,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:paddingBottom="8dp"
         android:layout_marginTop="4dp">
 
         <TextView
@@ -137,7 +143,7 @@
             android:text="Nuevo"
             android:textSize="16sp"
             android:textColor="@color/negro"
-            android:layout_marginStart="3dp"/>
+            android:layout_marginStart="8dp"/>
     </LinearLayout>
 
     <!-- Fila para los botones de acción -->
@@ -154,7 +160,7 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_view"
             android:contentDescription="@string/ver"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="8dp"/>
 
         <ImageView
             android:id="@+id/ic_edit"
@@ -162,7 +168,8 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_edit"
             android:contentDescription="@string/editar"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="8dp"/>
+
         <ImageView
             android:id="@+id/ic_delete"
             android:layout_width="24dp"

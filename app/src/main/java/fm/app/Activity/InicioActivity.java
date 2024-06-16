@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -47,6 +49,7 @@ import okhttp3.ResponseBody;
 public class InicioActivity extends AppCompatActivity {
     private Usuario usuario;
     private ImageView btnLogout;
+    private Uri fileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +92,26 @@ public class InicioActivity extends AppCompatActivity {
                 .setCancelClickListener(SweetAlertDialog::dismissWithAnimation)
                 .setConfirmClickListener(sDialog -> {
                     sDialog.dismissWithAnimation();
-                    downloadExcelReport();
+                    selectFileLocation();
                 }).show();
+    }
+
+    private final ActivityResultLauncher<Intent> createDocumentLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    fileUri = result.getData().getData();
+                    downloadExcelReport();
+                }
+            }
+    );
+
+    private void selectFileLocation() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        intent.putExtra(Intent.EXTRA_TITLE, "Reporte_De_Equipos.xlsx");
+        createDocumentLauncher.launch(intent);
     }
 
     private void downloadExcelReport() {
@@ -99,40 +120,46 @@ public class InicioActivity extends AppCompatActivity {
             if (responseBody != null) {
                 saveExcelFile(responseBody);
             } else {
-                Toast.makeText(this, "Error descargando el archivo", Toast.LENGTH_SHORT).show();
+                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Error")
+                        .setContentText("Error descargando el archivo")
+                        .show();
             }
         });
     }
 
     private void saveExcelFile(ResponseBody body) {
-        try {
-            File downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            File file = new File(downloadsFolder, "Reporte_De_Equipos.xlsx");
+        try (InputStream inputStream = body.byteStream();
+             OutputStream outputStream = getContentResolver().openOutputStream(fileUri)) {
 
-            InputStream inputStream = body.byteStream();
-            OutputStream outputStream = new FileOutputStream(file);
             byte[] buffer = new byte[4096];
             int read;
             while ((read = inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, read);
             }
-            outputStream.flush();
-            outputStream.close();
-            inputStream.close();
 
-            Toast.makeText(this, "Reporte descargado: " + file.toString(), Toast.LENGTH_LONG).show();
-            openDownloadedFile(file);
+            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Descarga completa")
+                    .setContentText("El archivo se ha guardado correctamente")
+                    .setConfirmClickListener(sDialog -> {
+                        sDialog.dismissWithAnimation();
+                        openDownloadedFile(fileUri);
+                    })
+                    .show();
+
         } catch (IOException e) {
-            Toast.makeText(this, "Error al guardar el archivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Error")
+                    .setContentText("Error al guardar el archivo: " + e.getMessage())
+                    .show();
         }
     }
 
-    private void openDownloadedFile(File file) {
-        Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
+    private void openDownloadedFile(Uri uri) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(intent, "Open with"));
+        startActivity(Intent.createChooser(intent, "Abrir con"));
     }
 
     private void navigateToFragment(Fragment fragment, int enterAnim, int exitAnim) {

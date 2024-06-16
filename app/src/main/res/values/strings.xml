@@ -133,5 +133,6 @@
     <string name="reporte_equipos">reporte de equipos</string>
     <string name="titulo_reporte_equipos">Descargar Reporte de Equipos</string>
     <string name="descripcion_reporte_equipos">Descarga un reporte en excel de todos los equipos</string>
+    <string name="logo_app">Logo</string>
 
 </resources>

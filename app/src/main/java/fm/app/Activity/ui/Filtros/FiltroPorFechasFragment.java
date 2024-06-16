@@ -1,6 +1,5 @@
 package fm.app.Activity.ui.Filtros;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,19 +9,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.textfield.TextInputEditText;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import fm.app.Activity.ui.equipos.DetalleEquipoFragment;
 import fm.app.Activity.ui.equipos.ModificarFragment;
 import fm.app.R;
@@ -65,7 +60,7 @@ public class FiltroPorFechasFragment extends Fragment {
         equipoAdapter = new EquipoAdapter(new ArrayList<>(), new EquipoAdapter.OnItemClickListener() {
             @Override
             public void onEditClick(int equipoId) {
-                Log.d("ListarFragment", "Edit clicked for ID: " + equipoId);
+                Log.d("FiltroPorFechasFragment", "Edit clicked for ID: " + equipoId);
                 ModificarFragment modificarFragment = new ModificarFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("equipoId", equipoId);
@@ -77,6 +72,7 @@ public class FiltroPorFechasFragment extends Fragment {
                             .commit();
                 }
             }
+
             @Override
             public void onViewClick(int equipoId) {
                 DetalleEquipoFragment detalleFragment = new DetalleEquipoFragment();
@@ -91,27 +87,35 @@ public class FiltroPorFechasFragment extends Fragment {
 
             @Override
             public void onDeleteClick(int equipoId) {
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Eliminar Equipo")
-                        .setMessage("¿Estás seguro de eliminar este equipo?")
-                        .setPositiveButton("Sí", (dialog, which) -> {
+                new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Eliminar Equipo")
+                        .setContentText("¿Estás seguro de eliminar este equipo?")
+                        .setConfirmText("Sí")
+                        .setConfirmClickListener(sDialog -> {
                             equipoViewModel.deleteEquipo(equipoId).observe(getViewLifecycleOwner(), response -> {
                                 if (response != null && response.getRpta() == 1) {
-                                    Toast.makeText(getContext(), "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
+                                    sDialog
+                                            .setTitleText("Eliminado")
+                                            .setContentText("Equipo eliminado correctamente")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                                     equipoViewModel.listAllEquipos().observe(getViewLifecycleOwner(), equipoResponse -> {
                                         if (equipoResponse != null && equipoResponse.getRpta() == 1) {
                                             equipoAdapter.updateData(equipoResponse.getBody());
                                         }
                                     });
                                 } else {
-                                    Toast.makeText(getContext(), "Error al eliminar equipo: " + (response != null ? response.getMessage() : "Error desconocido"), Toast.LENGTH_LONG).show();
+                                    sDialog
+                                            .setTitleText("Error")
+                                            .setContentText("Error al eliminar equipo: " + (response != null ? response.getMessage() : "Error desconocido"))
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
+                                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                                 }
                             });
                         })
-                        .setNegativeButton("No", (dialog, which) -> {
-                            dialog.dismiss();
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelButton("No", SweetAlertDialog::dismissWithAnimation)
                         .show();
             }
         });
@@ -125,11 +129,11 @@ public class FiltroPorFechasFragment extends Fragment {
     }
 
     private void setStartDate(DatePicker view, int year, int month, int dayOfMonth) {
-        edtFechaInicio.setText(String.format("%02d-%02d-%d", dayOfMonth, month + 1, year));
+        edtFechaInicio.setText(String.format("%02d/%02d/%d", dayOfMonth, month + 1, year));
     }
 
     private void setEndDate(DatePicker view, int year, int month, int dayOfMonth) {
-        edtFechaFin.setText(String.format("%02d-%02d-%d", dayOfMonth, month + 1, year));
+        edtFechaFin.setText(String.format("%02d/%02d/%d", dayOfMonth, month + 1, year));
     }
 
     private void loadInitialData() {
@@ -137,7 +141,10 @@ public class FiltroPorFechasFragment extends Fragment {
             if (response != null && response.getRpta() == 1) {
                 equipoAdapter.updateData(response.getBody());
             } else {
-                Toast.makeText(getContext(), "Error loading initial data", Toast.LENGTH_SHORT).show();
+                new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Error")
+                        .setContentText("Error al cargar los datos iniciales")
+                        .show();
             }
         });
     }
@@ -150,11 +157,18 @@ public class FiltroPorFechasFragment extends Fragment {
                 if (response != null && response.getRpta() == 1) {
                     equipoAdapter.updateData(response.getBody());
                 } else {
-                    Toast.makeText(getContext(), "No data found for selected dates", Toast.LENGTH_SHORT).show();
+                    equipoAdapter.updateData(new ArrayList<>());
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Sin resultados")
+                            .setContentText("No se encontraron datos para las fechas seleccionadas")
+                            .show();
                 }
             });
         } else {
-            Toast.makeText(getContext(), "Please select both start and end dates", Toast.LENGTH_SHORT).show();
+            new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Fechas incompletas")
+                    .setContentText("Por favor, seleccione ambas fechas de inicio y fin")
+                    .show();
         }
     }
 }

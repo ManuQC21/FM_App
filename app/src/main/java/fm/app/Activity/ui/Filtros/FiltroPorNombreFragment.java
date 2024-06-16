@@ -1,19 +1,18 @@
 package fm.app.Activity.ui.Filtros;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
-
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +31,8 @@ public class FiltroPorNombreFragment extends Fragment {
     private RecyclerView recyclerView;
     private EquipoAdapter equipoAdapter;
     private TextInputEditText edtBuscarNombre;
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable searchRunnable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,10 +42,11 @@ public class FiltroPorNombreFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ImageView btnVolverAtras = view.findViewById(R.id.btnVolverAtras);
         btnVolverAtras.setOnClickListener(v -> getParentFragmentManager().popBackStack());
+
         equipoAdapter = new EquipoAdapter(new ArrayList<>(), new EquipoAdapter.OnItemClickListener() {
             @Override
             public void onEditClick(int equipoId) {
-                Log.d("ListarFragment", "Edit clicked for ID: " + equipoId);
+                Log.d("FiltroPorNombreFragment", "Edit clicked for ID: " + equipoId);
                 ModificarFragment modificarFragment = new ModificarFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("equipoId", equipoId);
@@ -56,6 +58,7 @@ public class FiltroPorNombreFragment extends Fragment {
                             .commit();
                 }
             }
+
             @Override
             public void onViewClick(int equipoId) {
                 DetalleEquipoFragment detalleFragment = new DetalleEquipoFragment();
@@ -70,27 +73,35 @@ public class FiltroPorNombreFragment extends Fragment {
 
             @Override
             public void onDeleteClick(int equipoId) {
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Eliminar Equipo")
-                        .setMessage("¿Estás seguro de eliminar este equipo?")
-                        .setPositiveButton("Sí", (dialog, which) -> {
+                new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Eliminar Equipo")
+                        .setContentText("¿Estás seguro de eliminar este equipo?")
+                        .setConfirmText("Sí")
+                        .setConfirmClickListener(sDialog -> {
                             equipoViewModel.deleteEquipo(equipoId).observe(getViewLifecycleOwner(), response -> {
                                 if (response != null && response.getRpta() == 1) {
-                                    Toast.makeText(getContext(), "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
+                                    sDialog
+                                            .setTitleText("Eliminado")
+                                            .setContentText("Equipo eliminado correctamente")
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
+                                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                                     equipoViewModel.listAllEquipos().observe(getViewLifecycleOwner(), equipoResponse -> {
                                         if (equipoResponse != null && equipoResponse.getRpta() == 1) {
                                             equipoAdapter.updateData(equipoResponse.getBody());
                                         }
                                     });
                                 } else {
-                                    Toast.makeText(getContext(), "Error al eliminar equipo: " + (response != null ? response.getMessage() : "Error desconocido"), Toast.LENGTH_LONG).show();
+                                    sDialog
+                                            .setTitleText("Error")
+                                            .setContentText("Error al eliminar equipo: " + (response != null ? response.getMessage() : "Error desconocido"))
+                                            .setConfirmText("OK")
+                                            .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
+                                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                                 }
                             });
                         })
-                        .setNegativeButton("No", (dialog, which) -> {
-                            dialog.dismiss();
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelButton("No", SweetAlertDialog::dismissWithAnimation)
                         .show();
             }
         });
@@ -102,21 +113,29 @@ public class FiltroPorNombreFragment extends Fragment {
     private void setupEditText() {
         edtBuscarNombre.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                equipoViewModel.filtroPorNombre(s.toString()).observe(getViewLifecycleOwner(), response -> {
+                if (searchRunnable != null) {
+                    handler.removeCallbacks(searchRunnable);
+                }
+                searchRunnable = () -> equipoViewModel.filtroPorNombre(s.toString()).observe(getViewLifecycleOwner(), response -> {
                     if (response != null && response.getBody() != null) {
                         equipoAdapter.updateData(response.getBody());
+                    } else {
+                        equipoAdapter.updateData(new ArrayList<>());
+                        new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Sin resultados")
+                                .setContentText("No se encontraron datos para el nombre ingresado")
+                                .show();
                     }
                 });
+                handler.postDelayed(searchRunnable, 500); // 0.5 segundos
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
     }
 
@@ -129,8 +148,12 @@ public class FiltroPorNombreFragment extends Fragment {
         equipoViewModel.listAllEquipos().observe(getViewLifecycleOwner(), response -> {
             if (response != null && response.getBody() != null) {
                 equipoAdapter.updateData(response.getBody());
+            } else {
+                new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Error")
+                        .setContentText("Error al cargar los datos iniciales")
+                        .show();
             }
         });
     }
 }
-

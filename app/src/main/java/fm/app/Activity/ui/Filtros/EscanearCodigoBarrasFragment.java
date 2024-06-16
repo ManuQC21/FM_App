@@ -1,6 +1,7 @@
 package fm.app.Activity.ui.Filtros;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
@@ -35,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import fm.app.R;
 import fm.app.databinding.FragmentEscanearCodigoBarrasBinding;
 import fm.app.entity.Global;
@@ -49,6 +50,7 @@ public class EscanearCodigoBarrasFragment extends Fragment {
     private FragmentEscanearCodigoBarrasBinding binding;
     private EquipoViewModel equipoViewModel;
     private ImageCapture imageCapture;
+    private SweetAlertDialog progressDialog;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,13 +58,20 @@ public class EscanearCodigoBarrasFragment extends Fragment {
         equipoViewModel = new ViewModelProvider(this).get(EquipoViewModel.class);
         binding.btnVolverAtras.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
+        // Iniciar la cámara directamente si se tienen permisos.
         if (allPermissionsGranted()) {
             startCamera();
         } else {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.CAMERA}, 101);
+            Toast.makeText(getContext(), "La cámara requiere permisos para funcionar. Por favor, habilita los permisos desde la configuración.", Toast.LENGTH_LONG).show();
         }
 
-        binding.btnAnalyze.setOnClickListener(v -> takePhoto());
+        binding.btnAnalyze.setOnClickListener(v -> {
+            if (imageCapture != null) {
+                takePhoto();
+            } else {
+                Toast.makeText(getContext(), "La cámara no está lista. Inténtalo de nuevo.", Toast.LENGTH_SHORT).show();
+            }
+        });
         return binding.getRoot();
     }
 
@@ -73,7 +82,7 @@ public class EscanearCodigoBarrasFragment extends Fragment {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
                 bindCameraPreview(cameraProvider);
             } catch (ExecutionException | InterruptedException e) {
-                Toast.makeText(getContext(), "Error starting camera: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                showAlert("Error", "Error al iniciar la cámara: " + e.getMessage());
             }
         }, ContextCompat.getMainExecutor(requireContext()));
     }
@@ -87,7 +96,6 @@ public class EscanearCodigoBarrasFragment extends Fragment {
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build();
 
-        int rotation = binding.previewView.getDisplay().getRotation();
         imageCapture = new ImageCapture.Builder()
                 .setTargetResolution(new Size(1920, 1080))
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
@@ -101,6 +109,12 @@ public class EscanearCodigoBarrasFragment extends Fragment {
     private void takePhoto() {
         File photoFile = new File(requireContext().getExternalFilesDir(null), "scan_" + System.currentTimeMillis() + ".png");
         ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(photoFile).build();
+
+        progressDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        progressDialog.setTitleText("Analizando...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
         imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(requireContext()), new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
@@ -113,7 +127,10 @@ public class EscanearCodigoBarrasFragment extends Fragment {
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
-                Toast.makeText(getContext(), "Error taking photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismissWithAnimation();
+                }
+                showAlert("Error", "Error al tomar la foto: " + exception.getMessage());
                 if (photoFile.exists()) {
                     photoFile.delete();
                 }
@@ -139,10 +156,9 @@ public class EscanearCodigoBarrasFragment extends Fragment {
             bitmap.recycle();
             rotatedBitmap.recycle();
         } catch (IOException e) {
-            Toast.makeText(getContext(), "Error rotating image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            showAlert("Error", "Error al rotar la imagen: " + e.getMessage());
         }
     }
-
 
     private void sendImageToServer(Uri fileUri, File photoFile) {
         RequestBody requestFile = RequestBody.create(MediaType.get("image/png"), photoFile);
@@ -154,8 +170,13 @@ public class EscanearCodigoBarrasFragment extends Fragment {
                 photoFile.delete();
             }
 
+            if (progressDialog.isShowing()) {
+                progressDialog.dismissWithAnimation();
+            }
+
             if (response.getRpta() == Global.RESPUESTA_OK) {
-                showCustomDialog(response.getBody());
+                showSuccessDialog("Analizado correctamente");
+                new android.os.Handler().postDelayed(() -> showCustomDialog(response.getBody()), 500);
             } else {
                 showAlert("Error", response.getMessage());
             }
@@ -163,10 +184,19 @@ public class EscanearCodigoBarrasFragment extends Fragment {
     }
 
     private void showAlert(String title, String message) {
-        new AlertDialog.Builder(getContext())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("OK", null)
+        new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(title)
+                .setContentText(message)
+                .setConfirmText("OK")
+                .show();
+    }
+
+    private void showSuccessDialog(String message) {
+        new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Éxito")
+                .setContentText(message)
+                .setConfirmText("OK")
+                .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
                 .show();
     }
 
@@ -205,7 +235,6 @@ public class EscanearCodigoBarrasFragment extends Fragment {
         return text != null ? text : "-";
     }
 
-
     private boolean allPermissionsGranted() {
         return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
     }
@@ -214,15 +243,18 @@ public class EscanearCodigoBarrasFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 101 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            startCamera();
+            startCamera();  // Iniciar directamente la cámara en lugar de recargar el fragmento.
         } else {
-            Toast.makeText(getContext(), "Permissions not granted by the user.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Permiso de cámara no otorgado por el usuario.", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismissWithAnimation();
+        }
         binding = null;
     }
 }

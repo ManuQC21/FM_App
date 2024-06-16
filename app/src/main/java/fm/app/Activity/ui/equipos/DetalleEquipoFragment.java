@@ -1,17 +1,20 @@
 package fm.app.Activity.ui.equipos;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import fm.app.R;
-import fm.app.viewModel.EquipoViewModel;
 import fm.app.entity.service.Equipo;
+import fm.app.viewModel.EquipoViewModel;
 
 public class DetalleEquipoFragment extends Fragment {
 
@@ -27,15 +30,29 @@ public class DetalleEquipoFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detalle_equipo, container, false);
-        ImageView btnVolverAtras = view.findViewById(R.id.btnVolverAtras);
-        btnVolverAtras.setOnClickListener(v -> {
-            if (getFragmentManager() != null) {
-                getFragmentManager().popBackStack();
+
+        // Inicializar las vistas
+        inicializarVistas(view);
+
+        // Configurar el botón de volver atrás
+        configurarBotonVolverAtras(view);
+
+        // Cargar detalles del equipo si hay un ID
+        if (getArguments() != null && getArguments().containsKey("equipoId")) {
+            int equipoId = getArguments().getInt("equipoId", -1);
+            if (equipoId != -1) {
+                cargarDetalleEquipo(equipoId);
+            } else {
+                mostrarError("ID del equipo no válido");
             }
-        });
+        }
+
+        return view;
+    }
+
+    private void inicializarVistas(View view) {
         txtTipoEquipo = view.findViewById(R.id.txtTipoEquipo);
         txtCodigoBarra = view.findViewById(R.id.txtCodigoBarra);
         txtNombreEquipo = view.findViewById(R.id.txtNombreEquipo);
@@ -51,13 +68,15 @@ public class DetalleEquipoFragment extends Fragment {
         txtCargoResponsable = view.findViewById(R.id.txtCargoResponsable);
         txtAmbiente = view.findViewById(R.id.txtAmbiente);
         txtUbicacionFisica = view.findViewById(R.id.txtUbicacionFisica);
+    }
 
-        if (getArguments() != null && getArguments().containsKey("equipoId")) {
-            int equipoId = getArguments().getInt("equipoId");
-            cargarDetalleEquipo(equipoId);
-        }
-
-        return view;
+    private void configurarBotonVolverAtras(View view) {
+        ImageView btnVolverAtras = view.findViewById(R.id.btnVolverAtras);
+        btnVolverAtras.setOnClickListener(v -> {
+            if (getFragmentManager() != null) {
+                getFragmentManager().popBackStack();
+            }
+        });
     }
 
     private void cargarDetalleEquipo(int equipoId) {
@@ -98,10 +117,24 @@ public class DetalleEquipoFragment extends Fragment {
             txtAmbiente.setText("-");
             txtUbicacionFisica.setText("-");
         }
+
+        mostrarAlerta("Detalles Cargados", "Los detalles del equipo se han cargado correctamente.");
     }
 
-
     private void mostrarError(String mensaje) {
-        Toast.makeText(getContext(), mensaje, Toast.LENGTH_SHORT).show();
+        new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Error")
+                .setContentText(mensaje)
+                .show();
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        SweetAlertDialog successDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText(titulo)
+                .setContentText(mensaje);
+
+        successDialog.show();
+
+        new Handler().postDelayed(successDialog::dismissWithAnimation, 1000);
     }
 }
