@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showToast(String message, boolean isError) {
         LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(isError ? R.layout.custom_toast_error : R.layout.custom_toast_ok,
+        View layout = inflater.inflate(isError ? R.layout.custom_toast_fail : R.layout.custom_toast_ok,
                 (ViewGroup) findViewById(isError ? R.id.ll_custom_toast_error : R.id.ll_custom_toast_ok));
 
         TextView text = layout.findViewById(isError ? R.id.txtMensajeToast2 : R.id.txtMensajeToast1);

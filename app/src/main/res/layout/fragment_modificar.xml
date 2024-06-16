@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    tools:context=".Activity.ui.equipos.ModificarFragment">
 
     <!-- Toolbar con título y logo -->
     <androidx.appcompat.widget.Toolbar
@@ -13,7 +13,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/azul_general"
         android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+        android:paddingEnd="8dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,14 +31,13 @@
                 android:layout_marginEnd="16dp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/modificar_productos"
                 android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:textColor="@color/blanco"
                 android:layout_weight="1"
-                android:contentDescription="@string/descripcion_modificar_productos"
-                tools:ignore="InefficientWeight" />
+                android:contentDescription="@string/descripcion_modificar_productos" />
 
             <ImageView
                 android:layout_width="60dp"
@@ -61,7 +61,9 @@
             android:orientation="vertical"
             android:padding="8dp">
 
+            <!-- Tipo de Equipo con ícono -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputTipoEquipoModificar"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,6 +79,24 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputCodigoPatrimonialModificar"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/codigo_patrimonial"
+                app:startIconDrawable="@drawable/codigo_patrimonial">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtCodigoPatrimonialModificar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/high_contrast_text"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Descripción con ícono -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputDescripcionModificar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/descripcion"
@@ -89,7 +109,9 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Estado con ícono -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputEstadoModificar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/estado"
@@ -107,8 +129,9 @@
                     android:cursorVisible="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Fecha de Compra con ícono de calendario -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtFechaCompraModificar"
+                android:id="@+id/txtInputFechaCompraModificar"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +148,9 @@
                     android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Marca con ícono -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputMarcaModificar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/marca"
@@ -138,7 +163,9 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Modelo con ícono -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputModeloModificar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/modelo"
@@ -151,7 +178,9 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Nombre de Equipo con ícono -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputNombreDeEquipoModificar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/nombre_de_equipo"
@@ -164,7 +193,9 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Número de Orden con ícono -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputNumeroDeOrdenModificar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/numero_de_orden"
@@ -177,24 +208,29 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Serie con ícono -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputNumeroDeSerieModificar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/serie"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                app:startIconDrawable="@drawable/numero_de_orden">
+                app:startIconDrawable="@drawable/serie">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtNumeroDeSerieModificar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Responsable con ícono -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputResponsableModificar"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/responsable"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                app:startIconDrawable="@drawable/persona"
+                app:startIconDrawable="@drawable/responsable"
                 app:endIconMode="dropdown_menu">
 
                 <AutoCompleteTextView
@@ -207,11 +243,13 @@
                     android:cursorVisible="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Ubicación con ícono y menú desplegable -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputUbicacionModificar"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/ubicacion"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 app:startIconDrawable="@drawable/ubicacion"
                 app:endIconMode="dropdown_menu">
 
@@ -225,8 +263,7 @@
                     android:cursorVisible="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <!-- Botón para modificar el tipo de equipo -->
+            <!-- Botón para modificar el equipo -->
             <Button
                 android:id="@+id/btnModificarEquipo"
                 android:layout_width="match_parent"

@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    tools:context=".Activity.ui.equipos.AgregarFragment">
 
     <!-- Toolbar con título y logo -->
     <androidx.appcompat.widget.Toolbar
@@ -13,7 +13,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/azul_general"
         android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+        android:paddingEnd="8dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,18 +27,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_volver_atras"
-                android:contentDescription="Volver"
+                android:contentDescription="@string/volver"
                 android:layout_marginEnd="16dp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/Agregar_productos"
                 android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:textColor="@color/blanco"
                 android:layout_weight="1"
-                android:contentDescription="@string/descripcion_agregar_productos"
-                tools:ignore="InefficientWeight" />
+                android:contentDescription="@string/descripcion_agregar_productos" />
 
             <ImageView
                 android:layout_width="60dp"
@@ -76,6 +76,7 @@
 
                     <!-- Tipo de Equipo con ícono -->
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtInputTipoEquipo"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -92,6 +93,7 @@
 
                     <!-- Código Patrimonial con ícono -->
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtInputCodigoPatrimonial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/codigo_patrimonial"
@@ -106,6 +108,7 @@
 
                     <!-- Descripción con ícono -->
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtInputDescripcion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/descripcion"
@@ -120,6 +123,7 @@
 
                     <!-- Estado con ícono -->
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtInputEstado"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/estado"
@@ -139,7 +143,7 @@
 
                     <!-- Fecha de Compra con ícono de calendario -->
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/txtFechaCompra"
+                        android:id="@+id/txtInputFechaCompra"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -155,8 +159,10 @@
                             android:clickable="true"
                             android:inputType="none"/>
                     </com.google.android.material.textfield.TextInputLayout>
+
                     <!-- Marca con ícono -->
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtInputMarca"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/marca"
@@ -171,6 +177,7 @@
 
                     <!-- Modelo con ícono -->
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtInputModelo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/modelo"
@@ -185,6 +192,7 @@
 
                     <!-- Nombre de Equipo con ícono -->
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtInputNombreDeEquipo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/nombre_de_equipo"
@@ -199,6 +207,7 @@
 
                     <!-- Número de Orden con ícono -->
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtInputNumeroDeOrden"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/numero_de_orden"
@@ -213,6 +222,7 @@
 
                     <!-- Serie con ícono -->
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtInputNumeroDeSerie"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/serie"
@@ -227,7 +237,7 @@
 
                     <!-- Responsable con ícono -->
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/txtResponsable"
+                        android:id="@+id/txtInputResponsable"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -247,7 +257,7 @@
 
                     <!-- Ubicación con ícono y menú desplegable -->
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/txtUbicacion"
+                        android:id="@+id/txtInputUbicacion"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

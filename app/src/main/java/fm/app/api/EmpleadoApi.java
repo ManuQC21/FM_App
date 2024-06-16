@@ -7,7 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface EmpleadoApi {
-    String BASE_PATH = "/empleado";
+    String BASE_PATH = "/empleados";
 
     @GET(BASE_PATH + "/listar")
     Call<GenericResponse<List<Empleado>>> listarEmpleados();
