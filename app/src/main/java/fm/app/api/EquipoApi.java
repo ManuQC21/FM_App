@@ -33,7 +33,7 @@ public interface EquipoApi {
     Call<GenericResponse<List<Equipo>>> filtroCodigoPatrimonial(@Query("codigoPatrimonial") String codigoPatrimonial);
 
     @GET(BASE_PATH + "/filtro/fechaCompra")
-    Call<GenericResponse<List<Equipo>>> filtroFechaCompraBetween(@Query("fechaInicio") String fechaInicio, @Query("fechaFin") String fechaFin);
+    Call<GenericResponse<List<Equipo>>> filtroFechaRevisionBetween(@Query("fechaInicio") String fechaInicio, @Query("fechaFin") String fechaFin);
 
     @Multipart
     @POST(BASE_PATH + "/escanearCodigoBarra")

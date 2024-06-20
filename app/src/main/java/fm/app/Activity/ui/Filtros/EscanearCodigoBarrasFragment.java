@@ -23,7 +23,6 @@ import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -220,7 +219,7 @@ public class EscanearCodigoBarrasFragment extends Fragment {
         ((TextView) customLayout.findViewById(R.id.tvEstado)).setText(safeString(equipo.getEstado()));
         ((TextView) customLayout.findViewById(R.id.tvCodigoPatrimonial)).setText(safeString(equipo.getCodigoPatrimonial()));
         ((TextView) customLayout.findViewById(R.id.tvCodigoBarra)).setText(safeString(equipo.getCodigoBarra()));
-        ((TextView) customLayout.findViewById(R.id.tvFechaCompra)).setText(equipo.getFechaCompra() != null ? equipo.getFechaCompra().toString() : "-");
+        ((TextView) customLayout.findViewById(R.id.tvFechaCompra)).setText(equipo.getFechafechaRevision() != null ? equipo.getFechafechaRevision().toString() : "-");
 
         // Configuración de los campos de texto para la información del responsable
         ((TextView) customLayout.findViewById(R.id.tvNombreResponsable)).setText(safeString(equipo.getResponsable() != null ? equipo.getResponsable().getNombre() : "-"));

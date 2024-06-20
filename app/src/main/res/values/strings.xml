@@ -25,7 +25,7 @@
     <string name="codigo_patrimonial">Codigo Patrimonial</string>
     <string name="descripcion">Descripción</string>
     <string name="estado">Estado</string>
-    <string name="fecha_compra">Fecha de Compra</string>
+    <string name="fecha_revision">Fecha de Revision</string>
     <string name="marca">Marca</string>
     <string name="modelo">Modelo</string>
     <string name="nombre_de_equipo">Nombre de Equipo</string>
@@ -78,7 +78,7 @@
     <string name="view_codigo_patrimonial">"Codigo Patrimonial : "</string>
     <string name="view_descripcion">Descripción :</string>
     <string name="view_estado">"Estado : "</string>
-    <string name="view_fecha_compra">"Fecha de Compra : "</string>
+    <string name="view_fecha_revision">"Fecha de Revision : "</string>
     <string name="view_marca">"Marca : "</string>
     <string name="view_modelo">"Modelo : "</string>
     <string name="view_nombre_de_equipo">"Nombre del Equipo : "</string>

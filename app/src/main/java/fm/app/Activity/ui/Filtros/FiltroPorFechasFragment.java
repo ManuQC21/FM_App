@@ -153,7 +153,7 @@ public class FiltroPorFechasFragment extends Fragment {
         String startDate = edtFechaInicio.getText().toString().trim();
         String endDate = edtFechaFin.getText().toString().trim();
         if (!startDate.isEmpty() && !endDate.isEmpty()) {
-            equipoViewModel.filtroFechaCompraBetween(startDate, endDate).observe(getViewLifecycleOwner(), response -> {
+            equipoViewModel.filtroFechaRevisionBetween(startDate, endDate).observe(getViewLifecycleOwner(), response -> {
                 if (response != null && response.getRpta() == 1) {
                     equipoAdapter.updateData(response.getBody());
                 } else {

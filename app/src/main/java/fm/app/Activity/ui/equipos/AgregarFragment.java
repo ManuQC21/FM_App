@@ -126,7 +126,7 @@ public class AgregarFragment extends Fragment {
         equipo.setCodigoPatrimonial(txtCodigoPatrimonial.getText().toString());
         equipo.setDescripcion(txtDescripcion.getText().toString());
         equipo.setEstado(dropdownEstado.getText().toString());
-        equipo.setFechaCompra(edtFechaCompra.getText().toString());
+        equipo.setFechafechaRevision(edtFechaCompra.getText().toString());
         equipo.setMarca(txtMarca.getText().toString());
         equipo.setModelo(txtModelo.getText().toString());
         equipo.setNombreEquipo(txtNombreDeEquipo.getText().toString());
@@ -193,7 +193,7 @@ public class AgregarFragment extends Fragment {
             mensajeError.append("Falta estado.\n");
             esValido = false;
         }
-        if (equipo.getFechaCompra().isEmpty()) {
+        if (equipo.getFechafechaRevision().isEmpty()) {
             mensajeError.append("Falta fecha de compra.\n");
             esValido = false;
         }

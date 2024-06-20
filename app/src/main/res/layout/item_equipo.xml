@@ -103,7 +103,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/fecha_compra"
+            android:text="@string/fecha_revision"
             android:textStyle="bold"
             android:textColor="@color/azul_general"
             android:textSize="16sp"/>

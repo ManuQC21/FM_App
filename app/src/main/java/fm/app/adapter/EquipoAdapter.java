@@ -42,7 +42,7 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoView
         holder.nombreEquipo.setText(equipo.getNombreEquipo() != null ? equipo.getNombreEquipo() : "-");
         holder.tipoEquipo.setText(equipo.getTipoEquipo() != null ? equipo.getTipoEquipo() : "-");
         holder.codigoPatrimonial.setText(equipo.getCodigoPatrimonial() != null ? equipo.getCodigoPatrimonial() : "-");
-        holder.fechaCompra.setText(equipo.getFechaCompra() != null ? equipo.getFechaCompra() : "-");
+        holder.fechaCompra.setText(equipo.getFechafechaRevision() != null ? equipo.getFechafechaRevision() : "-");
         holder.estadoEquipo.setText(equipo.getEstado() != null ? equipo.getEstado() : "-");
 
         if (listener != null) {

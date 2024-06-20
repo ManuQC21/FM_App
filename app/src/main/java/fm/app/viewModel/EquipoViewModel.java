@@ -27,7 +27,7 @@ public class EquipoViewModel extends AndroidViewModel {
     public LiveData<GenericResponse<Equipo>> getEquipoById(Integer id) { return equipoRepository.getEquipoById(id); }
     public LiveData<GenericResponse<List<Equipo>>> filtroPorNombre(String nombreEquipo) { return equipoRepository.filtroPorNombre(nombreEquipo); }
     public LiveData<GenericResponse<List<Equipo>>> filtroCodigoPatrimonial(String codigoPatrimonial) { return equipoRepository.filtroCodigoPatrimonial(codigoPatrimonial); }
-    public LiveData<GenericResponse<List<Equipo>>> filtroFechaCompraBetween(String fechaInicio, String fechaFin) { return equipoRepository.filtroFechaCompraBetween(fechaInicio, fechaFin); }
+    public LiveData<GenericResponse<List<Equipo>>> filtroFechaRevisionBetween(String fechaInicio, String fechaFin) { return equipoRepository.filtroFechaRevisionBetween(fechaInicio, fechaFin); }
     public LiveData<GenericResponse<Equipo>> scanAndCopyBarcodeData(MultipartBody.Part file) { return equipoRepository.scanAndCopyBarcodeData(file); }
     public LiveData<ResponseBody> downloadExcelReport() { return equipoRepository.downloadExcelReport(); }
 }

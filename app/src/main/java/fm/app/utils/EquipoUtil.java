@@ -13,7 +13,7 @@ public class EquipoUtil {
                 && isValidCodigoPatrimonial(equipo.getCodigoPatrimonial())
                 && isValidDescripcion(equipo.getDescripcion())
                 && isValidEstado(equipo.getEstado())
-                && isValidFechaCompra(equipo.getFechaCompra())
+                && isValidFechaCompra(equipo.getFechafechaRevision())
                 && isValidMarca(equipo.getMarca())
                 && isValidModelo(equipo.getModelo())
                 && isValidNombreEquipo(equipo.getNombreEquipo())

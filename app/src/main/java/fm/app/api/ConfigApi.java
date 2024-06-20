@@ -14,7 +14,7 @@ public class ConfigApi {
     // Define las URLs base para diferentes entornos, manteniendo las alternativas como comentarios
     //public static final String BASE_URL = "http://10.0.2.2:8080"; // Emulador Android Studio
     //public static final String BASE_URL = "http://192.168.1.122:8080"; // URL principal
-    public static final String BASE_URL = "http://192.168.0.14:8080"; // Otra IP de red local
+    public static final String BASE_URL = "https://appfmservice-production.up.railway.app"; // Otra IP de red local
 
     private static Retrofit retrofit = null;
 

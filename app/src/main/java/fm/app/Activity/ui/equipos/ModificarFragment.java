@@ -134,10 +134,10 @@ public class ModificarFragment extends Fragment {
                     txtNombreEquipo.setText(equipo.getNombreEquipo());
                     txtNumeroOrden.setText(equipo.getNumeroOrden());
                     txtNumeroSerie.setText(equipo.getSerie());
-                    if (equipo.getFechaCompra() != null && !equipo.getFechaCompra().isEmpty()) {
+                    if (equipo.getFechafechaRevision() != null && !equipo.getFechafechaRevision().isEmpty()) {
                         try {
                             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-                            Date fecha = sdf.parse(equipo.getFechaCompra());
+                            Date fecha = sdf.parse(equipo.getFechafechaRevision());
                             edtFechaCompra.setText(sdf.format(fecha));
                         } catch (ParseException e) {
                             showErrorAlert("Error al parsear la fecha");
@@ -164,7 +164,7 @@ public class ModificarFragment extends Fragment {
         equipo.setCodigoPatrimonial(txtCodigoPatrimonial.getText().toString());
         equipo.setDescripcion(txtDescripcion.getText().toString());
         equipo.setEstado(dropdownEstado.getText().toString());
-        equipo.setFechaCompra(edtFechaCompra.getText().toString());
+        equipo.setFechafechaRevision(edtFechaCompra.getText().toString());
         equipo.setMarca(txtMarca.getText().toString());
         equipo.setModelo(txtModelo.getText().toString());
         equipo.setNombreEquipo(txtNombreEquipo.getText().toString());
@@ -231,7 +231,7 @@ public class ModificarFragment extends Fragment {
             mensajeError.append("- Falta estado.\n");
             esValido = false;
         }
-        if (equipo.getFechaCompra() == null || equipo.getFechaCompra().isEmpty()) {
+        if (equipo.getFechafechaRevision() == null || equipo.getFechafechaRevision().isEmpty()) {
             mensajeError.append("- Falta fecha de compra.\n");
             esValido = false;
         }

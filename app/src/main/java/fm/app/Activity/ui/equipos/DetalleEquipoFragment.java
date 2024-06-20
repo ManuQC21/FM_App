@@ -100,7 +100,7 @@ public class DetalleEquipoFragment extends Fragment {
         txtDescripcion.setText(equipo.getDescripcion() != null ? equipo.getDescripcion() : "-");
         txtEstado.setText(equipo.getEstado() != null ? equipo.getEstado() : "-");
         txtCodigoPatrimonial.setText(equipo.getCodigoPatrimonial() != null ? equipo.getCodigoPatrimonial() : "-");
-        txtFechaCompra.setText(equipo.getFechaCompra() != null ? equipo.getFechaCompra() : "-");
+        txtFechaCompra.setText(equipo.getFechafechaRevision() != null ? equipo.getFechafechaRevision() : "-");
 
         if (equipo.getResponsable() != null) {
             txtNombreResponsable.setText(equipo.getResponsable().getNombre() != null ? equipo.getResponsable().getNombre() : "-");

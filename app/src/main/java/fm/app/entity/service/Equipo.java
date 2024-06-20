@@ -8,7 +8,7 @@ public class Equipo {
     private String codigoPatrimonial;
     private String descripcion;
     private String estado;
-    private String fechaCompra; // Cambiado a String
+    private String fechafechaRevision; // Cambiado a String
     private String marca;
     private String modelo;
     private String nombreEquipo;
@@ -74,12 +74,12 @@ public class Equipo {
         this.estado = estado;
     }
 
-    public String getFechaCompra() {
-        return fechaCompra;
+    public String getFechafechaRevision() {
+        return fechafechaRevision;
     }
 
-    public void setFechaCompra(String fechaCompra) {
-        this.fechaCompra = fechaCompra;
+    public void setFechafechaRevision(String fechafechaRevision) {
+        this.fechafechaRevision = fechafechaRevision;
     }
 
     public String getMarca() {

@@ -83,9 +83,9 @@ public class EquipoRepository {
         return liveData;
     }
 
-    public LiveData<GenericResponse<List<Equipo>>> filtroFechaCompraBetween(String fechaInicio, String fechaFin) {
+    public LiveData<GenericResponse<List<Equipo>>> filtroFechaRevisionBetween(String fechaInicio, String fechaFin) {
         MutableLiveData<GenericResponse<List<Equipo>>> liveData = new MutableLiveData<>();
-        handleResponse(equipoApi.filtroFechaCompraBetween(fechaInicio, fechaFin), liveData);
+        handleResponse(equipoApi.filtroFechaRevisionBetween(fechaInicio, fechaFin), liveData);
         return liveData;
     }
 
